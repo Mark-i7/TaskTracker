@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "332955469506",
+    "project_id": "tasktracker-e43d7",
+    "storage_bucket": "tasktracker-e43d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332955469506:android:e0ba5ad393ea7b23b65d5b",
+        "android_client_info": {
+          "package_name": "com.example.trelloclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332955469506-idf6978aaekha6jp6fqpa93nlc9lvq0i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsbIBRBOKRDSHamg1sSSHwGjQxTujOI-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332955469506-idf6978aaekha6jp6fqpa93nlc9lvq0i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
