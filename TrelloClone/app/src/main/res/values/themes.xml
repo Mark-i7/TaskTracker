@@ -14,9 +14,10 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.TrelloClone.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/rectangle_blue</item>
     </style>
 
     <style name="Theme.TrelloClone.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
