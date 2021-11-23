@@ -1,8 +1,6 @@
 package com.example.trelloclone.firebase
 
-import android.app.Activity
 import android.util.Log
-import android.widget.Toast
 import com.example.trelloclone.models.User
 import com.example.trelloclone.ui.registration.SignUpFragment
 import com.example.trelloclone.utils.Constants
