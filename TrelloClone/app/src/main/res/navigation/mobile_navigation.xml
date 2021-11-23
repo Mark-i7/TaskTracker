@@ -32,15 +32,20 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.trelloclone.ui.registration.SignUpFragment"
-        android:label="fragment_signup"
+        android:label="@string/sign_up"
         tools:layout="@layout/fragment_signup" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.trelloclone.ui.login.LoginFragment"
-        android:label="fragment_login"
+        android:label="@string/log_in"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_nav_gallery"
-            app:destination="@id/nav_gallery" />
+            android:id="@+id/action_loginFragment_to_nav_my_card"
+            app:destination="@id/nav_my_card" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_my_card"
+        android:name="com.example.trelloclone.ui.fragment.MyCardsFragment"
+        android:label="@string/my_cards_fragment" />
 </navigation>

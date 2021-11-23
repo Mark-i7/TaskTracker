@@ -61,7 +61,7 @@ class LoginFragment() : Fragment(), ProgressDialog {
                 hideProgressDialog()
                 if(task.isSuccessful){
                     showToast("Authentication success!", requireContext())
-                    findNavController().navigate(R.id.action_loginFragment_to_nav_gallery)
+                    findNavController().navigate(R.id.action_loginFragment_to_nav_my_card)
                 } else {
                     showToast(task.exception!!.message.toString(), requireContext())
                 }
