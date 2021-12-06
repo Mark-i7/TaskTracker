@@ -10,8 +10,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentHomeBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -23,6 +26,8 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var button: FloatingActionButton
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +44,15 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
+        root.apply { 
+            button = findViewById(R.id.fab)
+        }
+
+        button.setOnClickListener {
+            view->view.findNavController().navigate(R.id.nav_create_board)
+        }
+        
         return root
     }
 

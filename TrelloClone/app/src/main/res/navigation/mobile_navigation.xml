@@ -25,5 +25,16 @@
     <fragment
         android:id="@+id/nav_my_card"
         android:name="com.example.trelloclone.ui.fragment.MyCardsFragment"
-        android:label="MyCardsFragment" />
+        android:label="MyCardsFragment" >
+        <action
+            android:id="@+id/action_nav_my_card_to_createBoard"
+            app:destination="@id/nav_create_board" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_create_board"
+        android:name="com.example.trelloclone.CreateBoard"
+        android:label="fragment_create_board"
+        tools:layout="@layout/fragment_create_board" >
+
+    </fragment>
 </navigation>
