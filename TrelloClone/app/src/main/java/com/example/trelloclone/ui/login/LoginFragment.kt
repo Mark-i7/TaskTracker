@@ -51,6 +51,10 @@ class LoginFragment() : Fragment(), ProgressDialog {
             signInUser(email.text.toString().trim(), password.text.toString().trim())
         }
 
+        binding.btnSignup.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+        }
+
         return root
     }
 
@@ -61,7 +65,7 @@ class LoginFragment() : Fragment(), ProgressDialog {
                 hideProgressDialog()
                 if(task.isSuccessful){
                     showToast("Authentication success!", requireContext())
-                    findNavController().navigate(R.id.action_loginFragment_to_nav_my_card)
+                    findNavController().navigate(R.id.action_loginFragment_to_nav_home)
                 } else {
                     showToast(task.exception!!.message.toString(), requireContext())
                 }

@@ -36,14 +36,6 @@ class HomeFragment : Fragment() {
             textView.text = it
         }
 
-        binding.signUp.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_home_to_signUpFragment)
-        }
-
-        binding.logIn.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_home_to_loginFragment)
-        }
-
         return root
     }
 
