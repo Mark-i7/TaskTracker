@@ -13,6 +13,7 @@
 
     <string name="sign_up">Sign up</string>
     <string name="sign_up_description_text">Sign up to join us and access many boards across the world!</string>
+    <string name="sign_in_description_text">Sign in to access boards and other functionalities!</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

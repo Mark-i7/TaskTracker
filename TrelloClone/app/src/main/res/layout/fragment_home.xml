@@ -20,32 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/sign_up"
-        android:layout_width="206dp"
-        android:layout_height="48dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:text="@string/sign_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_home"
-        app:layout_constraintVertical_bias="0.27" />
-
-    <Button
-        android:id="@+id/log_in"
-        android:layout_width="207dp"
-        android:layout_height="47dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:text="@string/log_in"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up"
-        app:layout_constraintVertical_bias="0.215" />
-
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
