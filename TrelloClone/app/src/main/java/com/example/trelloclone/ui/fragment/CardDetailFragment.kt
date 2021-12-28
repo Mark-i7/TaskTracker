@@ -2,6 +2,7 @@ package com.example.trelloclone.ui.fragment
 
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentCardDetailBinding
+import com.example.trelloclone.firebase.Firestore
+import com.example.trelloclone.models.Card
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -36,6 +39,7 @@ class CardDetailFragment : Fragment() {
     private var startTime = ""
     private var dueDate = ""
     private var dueTime = ""
+    private lateinit var card: Card
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,6 +71,11 @@ class CardDetailFragment : Fragment() {
         dueTimeButton = binding.buttonDueTime
         startDateAndTime = binding.tvStartDate
         dueDateAndTime = binding.tvDueDate
+        Firestore().getCardDetails(this, "SG8YUj3AQ3s4CcdedHOV")
+    }
+
+    fun getDetailsFromDB(card: Card) {
+        this.card = card
     }
 
     private fun setListeners() {

@@ -66,7 +66,6 @@ class LoginFragment() : Fragment(), ProgressDialog {
                 .addOnCompleteListener { task ->
                     hideProgressDialog()
                     if (task.isSuccessful) {
-                        Constants.CURRENT_USER_ID = auth.currentUser?.uid!!
                         showToast("Authentication success!", requireContext())
                         findNavController().navigate(R.id.action_loginFragment_to_nav_home)
                     } else {

@@ -5,6 +5,7 @@ import android.os.Parcelable
 
 class Card(
     id: String,
+    var boardId: String, // the d of the board it's related to
     var createdBy: String, // the id of the current user who executed the creation
     var assignedTo: ArrayList<String>,
     var cardTitle: String?,
@@ -16,7 +17,13 @@ class Card(
     viewType: Int
 ) : BaseClass(id, viewType), Parcelable {
 
+    constructor() : this(
+        "","", "", arrayListOf(""), null, "", "", 0,
+        "", "", 0
+    )
+
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.createStringArrayList()!!,
@@ -31,6 +38,7 @@ class Card(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
+        parcel.writeString(boardId)
         parcel.writeString(createdBy)
         parcel.writeStringList(assignedTo)
         parcel.writeString(cardTitle)
@@ -46,6 +54,10 @@ class Card(
         return 0
     }
 
+    override fun toString(): String {
+        return "Card(createdBy='$createdBy', assignedTo=$assignedTo, cardTitle=$cardTitle, startDate='$startDate', dueDate='$dueDate', imageId=$imageId, details='$details', description='$description')"
+    }
+
     companion object CREATOR : Parcelable.Creator<Card> {
         override fun createFromParcel(parcel: Parcel): Card {
             return Card(parcel)
@@ -55,4 +67,6 @@ class Card(
             return arrayOfNulls(size)
         }
     }
+
+
 }
