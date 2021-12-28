@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentCardDetailBinding
@@ -21,16 +22,16 @@ class CardDetailFragment : Fragment() {
 
     private var _binding: FragmentCardDetailBinding? = null
     private val binding get() = _binding!!
-    private lateinit var uploadImageView : ImageView
-    private lateinit var cardDetailImage : ImageView
-    private lateinit var cardName : TextView
-    private lateinit var cardDetails : TextInputLayout
-    private lateinit var startDateButton  : Button
-    private lateinit var dueDateButton : Button
-    private lateinit var startTimeButton  : Button
-    private lateinit var dueTimeButton : Button
-    private lateinit var startDateAndTime : TextView
-    private lateinit var dueDateAndTime : TextView
+    private lateinit var uploadImageView: ImageView
+    private lateinit var cardDetailImage: ImageView
+    private lateinit var cardName: TextView
+    private lateinit var cardDetails: TextInputLayout
+    private lateinit var startDateButton: Button
+    private lateinit var dueDateButton: Button
+    private lateinit var startTimeButton: Button
+    private lateinit var dueTimeButton: Button
+    private lateinit var startDateAndTime: TextView
+    private lateinit var dueDateAndTime: TextView
     private var startDate = ""
     private var startTime = ""
     private var dueDate = ""
@@ -42,19 +43,20 @@ class CardDetailFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentCardDetailBinding.inflate(inflater, container, false)
-        val root : View = binding.root
+        val root: View = binding.root
         initializeElements()
         setListeners()
         return root
     }
 
     private val getImage = registerForActivityResult(
-        ActivityResultContracts.GetContent()) {
+        ActivityResultContracts.GetContent()
+    ) {
         cardDetailImage.setImageURI(it)
     }
 
 
-    private fun initializeElements(){
+    private fun initializeElements() {
         uploadImageView = binding.ivUploadImage
         cardDetailImage = binding.ivAddCardDetailImage
         cardName = binding.tvCardName
@@ -67,30 +69,30 @@ class CardDetailFragment : Fragment() {
         dueDateAndTime = binding.tvDueDate
     }
 
-    private fun setListeners(){
-        uploadImageView.setOnClickListener{
+    private fun setListeners() {
+        uploadImageView.setOnClickListener {
             getImage.launch("image/*")
             uploadImageView.visibility = View.INVISIBLE
         }
 
-        startDateButton.setOnClickListener{
+        startDateButton.setOnClickListener {
             openDatePicker(startDateAndTime, "Start date: ", 1)
         }
 
-        startTimeButton.setOnClickListener{
+        startTimeButton.setOnClickListener {
             openTimePicker(startDateAndTime, "Start date: ", 1)
         }
 
-        dueDateButton.setOnClickListener{
+        dueDateButton.setOnClickListener {
             openDatePicker(dueDateAndTime, "Due date: ", 2)
         }
 
-        dueTimeButton.setOnClickListener{
+        dueTimeButton.setOnClickListener {
             openTimePicker(dueDateAndTime, "Due date: ", 2)
         }
     }
 
-    private fun openTimePicker(textView : TextView, text : String, type : Int){
+    private fun openTimePicker(textView: TextView, text: String, type: Int) {
         val isSystem24Hour = is24HourFormat(requireContext())
         val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
 
@@ -105,7 +107,7 @@ class CardDetailFragment : Fragment() {
         timePicker.addOnPositiveButtonClickListener {
             val hour = timePicker.hour
             val min = timePicker.minute
-            if(type == 1){
+            if (type == 1) {
                 startTime = "$hour:$min"
                 textView.text = getString(R.string.time, text, startDate, hour.toString(), min.toString())
             } else {
@@ -115,7 +117,7 @@ class CardDetailFragment : Fragment() {
         }
     }
 
-    private fun openDatePicker(textView : TextView, text : String, type : Int){
+    private fun openDatePicker(textView: TextView, text: String, type: Int) {
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
@@ -124,12 +126,12 @@ class CardDetailFragment : Fragment() {
         datePicker.show(childFragmentManager, "tag")
 
         datePicker.addOnPositiveButtonClickListener {
-            if(type == 1){
+            if (type == 1) {
                 startDate = datePicker.headerText
-                textView.text =  getString(R.string.date, text, datePicker.headerText, startTime)
+                textView.text = getString(R.string.date, text, datePicker.headerText, startTime)
             } else {
                 dueDate = datePicker.headerText
-                textView.text =  getString(R.string.date, text, datePicker.headerText, dueTime)
+                textView.text = getString(R.string.date, text, datePicker.headerText, dueTime)
             }
         }
     }
@@ -137,5 +139,9 @@ class CardDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun cardUpdatedSuccess() {
+        Toast.makeText(requireContext(), "Card successfully updated", Toast.LENGTH_SHORT).show()
     }
 }
