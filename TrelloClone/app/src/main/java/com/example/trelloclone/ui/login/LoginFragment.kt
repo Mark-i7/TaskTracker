@@ -14,6 +14,7 @@ import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentLoginBinding
 import com.example.trelloclone.ui.progressdialog.ProgressDialog
 import com.example.trelloclone.utils.AppLevelFunctions.Companion.showToast
+import com.example.trelloclone.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -59,17 +60,20 @@ class LoginFragment() : Fragment(), ProgressDialog {
     }
 
     private fun signInUser(email: String, password: String) {
-        showProgressDialog()
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                hideProgressDialog()
-                if(task.isSuccessful){
-                    showToast("Authentication success!", requireContext())
-                    findNavController().navigate(R.id.action_loginFragment_to_nav_home)
-                } else {
-                    showToast(task.exception!!.message.toString(), requireContext())
+        if (loginViewModel.validateForm(email, password, requireContext())) {
+            showProgressDialog()
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    hideProgressDialog()
+                    if (task.isSuccessful) {
+                        Constants.CURRENT_USER_ID = auth.currentUser?.uid!!
+                        showToast("Authentication success!", requireContext())
+                        findNavController().navigate(R.id.action_loginFragment_to_nav_home)
+                    } else {
+                        showToast(task.exception!!.message.toString(), requireContext())
+                    }
                 }
-            }
+        }
     }
 
     override fun onDestroyView() {

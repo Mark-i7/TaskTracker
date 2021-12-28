@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import android.widget.Toast
 
-class LoginViewModel(): ViewModel() {
+class LoginViewModel() : ViewModel() {
 
-    fun validateForm(email: String, password: String, context: Context): Boolean{
+    fun validateForm(email: String, password: String, context: Context): Boolean {
         return when {
             TextUtils.isEmpty(email) -> {
                 Toast.makeText(context, "Please enter an email", Toast.LENGTH_SHORT)
