@@ -1,6 +1,7 @@
 package com.example.trelloclone.model
 
-class Card ( val cardName : String,
+class Card ( id : Int,
+             val cardName : String,
              val dueDate : String,
              val imageId : Int,
-             viewType : Int) : BaseClass(viewType)
+             viewType : Int) : BaseClass(id, viewType)

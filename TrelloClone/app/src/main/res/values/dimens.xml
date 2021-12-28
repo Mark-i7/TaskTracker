@@ -43,11 +43,6 @@
     <dimen name="fragment_vertical_margin">16dp</dimen>
 
     <!--Card item-->
-    card_view:cardCornerRadius="5dp"
-    android:layout_marginLeft="60dp"
-    android:layout_marginRight="60dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginBottom="20dp"
     <dimen name="cv_cardCornerRadius">5dp</dimen>
     <dimen name="cv_margin_left_right">60dp</dimen>
     <dimen name="cv_margin_top_bottom">20dp</dimen>
@@ -67,4 +62,22 @@
     <dimen name="tv3_layout_marginStart">30dp</dimen>
     <dimen name="tv3_textSize">18sp</dimen>
 
+    <!--    Card details-->
+    <dimen name="card_detail_iv_layout_height">180dp</dimen>
+    <dimen name="upload_image_layout_width">80dp</dimen>
+    <dimen name="upload_image_layout_height">80dp</dimen>
+    <dimen name="card_detail_layout_marginTop">50dp</dimen>
+    <dimen name="card_detail_tv_layout_marginTop">15dp</dimen>
+    <dimen name="card_detail_tv_layout_padding">15dp</dimen>
+    <dimen name="card_detail_tv_text_size">18sp</dimen>
+    <dimen name="card_detail_tv_card_name_text_size">18sp</dimen>
+    <dimen name="card_details_layout_marginStart">20dp</dimen>
+    <dimen name="card_details_layout_marginTop">15dp</dimen>
+    <dimen name="card_details_layout_marginEnd">20dp</dimen>
+    <dimen name="card_detail_start_date_paddingStart">15dp</dimen>
+    <dimen name="card_detail_start_date_margin_top">15dp</dimen>
+    <dimen name="card_detail_start_date_paddingTopBottom">15dp</dimen>
+    <dimen name="card_detail_start_date_text_size">15sp</dimen>
+    <dimen name="card_detail_button_layout_marginStart">20dp</dimen>
+    <dimen name="card_detail_button_layout_marginTop">15dp</dimen>
 </resources>

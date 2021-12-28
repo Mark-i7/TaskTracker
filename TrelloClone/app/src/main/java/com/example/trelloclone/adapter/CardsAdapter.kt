@@ -10,16 +10,32 @@ import com.example.trelloclone.R
 import com.example.trelloclone.model.BaseClass
 import com.example.trelloclone.model.Board
 import com.example.trelloclone.model.Card
+import com.example.trelloclone.ui.fragment.MyCardsFragment
 
-class RecyclerViewAdapter(private val list : List<BaseClass>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecyclerViewAdapter(private val list: List<BaseClass>,
+                          private val listener: MyCardsFragment
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class CardHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    interface OnItemClickListener{
+        fun onItemClick(id: Int)
+    }
+
+    inner class CardHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val cardName: TextView = itemView.findViewById(R.id.tv_card_name)
         private val dueDate : TextView = itemView.findViewById(R.id.tv_due_date)
         private val image : ImageView = itemView.findViewById(R.id.user_profile_image)
         fun bindCard(card: Card) {
             cardName.text = card.cardName
             dueDate.text = card.dueDate
+        }
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val currentPosition = this.adapterPosition
+            listener.onItemClick(list[currentPosition].id)
         }
     }
 
