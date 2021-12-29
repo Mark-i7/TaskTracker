@@ -48,6 +48,10 @@ class CardDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         currentCard = sharedViewModel.getCurrentCard()
+        startDate = currentCard.startDate
+        startTime = currentCard.startTime
+        dueDate = currentCard.dueDate
+        dueTime = currentCard.dueTime
     }
 
     override fun onCreateView(
@@ -131,12 +135,8 @@ class CardDetailFragment : Fragment() {
     private fun setValues() {
         cardName.text = currentCard.cardTitle
         cardDetails.setText(currentCard.details)
-        startDateAndTime.text = currentCard.startDate
-        dueDateAndTime.text = currentCard.dueDate
-        startDate = currentCard.startDate
-        startTime = currentCard.startDate
-        dueDate = currentCard.dueDate
-        dueTime = currentCard.dueDate
+        startDateAndTime.text = "${currentCard.startDate} at ${currentCard.startTime}"
+        dueDateAndTime.text = "${currentCard.dueDate} at ${currentCard.dueTime}"
     }
 
     private fun openTimePicker(textView: TextView, text: String, type: Int) {
