@@ -14,7 +14,6 @@ import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentLoginBinding
 import com.example.trelloclone.ui.progressdialog.ProgressDialog
 import com.example.trelloclone.utils.AppLevelFunctions.Companion.showToast
-import com.example.trelloclone.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -32,6 +31,15 @@ class LoginFragment() : Fragment(), ProgressDialog {
 
     private val binding get() = _binding!!
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        /** authentication */
+        auth = FirebaseAuth.getInstance()
+        if(auth.currentUser != null){
+            findNavController().navigate(R.id.action_loginFragment_to_nav_home)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,8 +49,6 @@ class LoginFragment() : Fragment(), ProgressDialog {
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        auth = FirebaseAuth.getInstance()
 
         email = binding.email
         password = binding.password
