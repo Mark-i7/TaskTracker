@@ -10,14 +10,14 @@ import com.example.trelloclone.R
 import com.example.trelloclone.models.BaseClass
 import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.Card
-import com.example.trelloclone.ui.fragment.MyCardsFragment
+import com.example.trelloclone.ui.cards.MyCardsFragment
 
-class RecyclerViewAdapter(private val list: List<BaseClass>,
-                          private val listener: MyCardsFragment
+class CardsAdapter(private var list: List<BaseClass>,
+                   private val listener: MyCardsFragment
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnItemClickListener{
-        fun onItemClick(id: Int)
+        fun onItemClick(id: String)
     }
 
     inner class CardHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -81,5 +81,10 @@ class RecyclerViewAdapter(private val list: List<BaseClass>,
 
     override fun getItemViewType(position: Int): Int {
         return list[position].viewType
+    }
+
+    // Update the list
+    fun setData(newlist: ArrayList<BaseClass>){
+        list = newlist
     }
 }

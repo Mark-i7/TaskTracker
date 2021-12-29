@@ -49,7 +49,8 @@ class LoginFragment() : Fragment(), ProgressDialog {
         loginBtn = binding.btnLogin
 
         loginBtn.setOnClickListener {
-            signInUser(email.text.toString().trim(), password.text.toString().trim())
+            //signInUser(email.text.toString().trim(), password.text.toString().trim())
+            signInUser("kovacs.andrea.home@gmail.com", "andi123")
         }
 
         binding.btnSignup.setOnClickListener {

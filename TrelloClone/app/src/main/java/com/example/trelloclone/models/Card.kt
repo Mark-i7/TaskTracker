@@ -16,6 +16,11 @@ class Card(
     viewType: Int
 ) : BaseClass(id, viewType), Parcelable {
 
+    constructor() : this(
+        "", "", arrayListOf(""), null, "", "", 0,
+        "", "", 0
+    )
+
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
@@ -44,6 +49,10 @@ class Card(
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun toString(): String {
+        return "Card(createdBy='$createdBy', assignedTo=$assignedTo, cardTitle=$cardTitle, startDate='$startDate', dueDate='$dueDate', imageId=$imageId, details='$details', description='$description')"
     }
 
     companion object CREATOR : Parcelable.Creator<Card> {

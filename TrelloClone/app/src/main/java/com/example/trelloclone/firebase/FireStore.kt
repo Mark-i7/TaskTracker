@@ -3,8 +3,8 @@ package com.example.trelloclone.firebase
 import android.util.Log
 import com.example.trelloclone.models.Card
 import com.example.trelloclone.models.User
-import com.example.trelloclone.ui.fragment.CardDetailFragment
-import com.example.trelloclone.ui.fragment.MyCardsFragment
+import com.example.trelloclone.ui.cards.CardDetailFragment
+import com.example.trelloclone.ui.cards.MyCardsFragment
 import com.example.trelloclone.ui.registration.SignUpFragment
 import com.example.trelloclone.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -52,7 +52,7 @@ class Firestore {
     fun updateCardDetails(fragment: CardDetailFragment, cardInfo: Card) {
         mFireStore
             .collection(Constants.CARDS)
-            .document(cardInfo.id.toString())
+            .document(cardInfo.id)
             .set(cardInfo, SetOptions.merge())
             .addOnSuccessListener {
                 fragment.cardUpdatedSuccess()
@@ -61,40 +61,26 @@ class Firestore {
             }
     }
 
-    fun getCardDetails(fragment: CardDetailFragment, cardId: String) {
+    fun getAllCardsCreatedByUser() : ArrayList<Card> {
+        val cardsList: ArrayList<Card> = ArrayList()
         mFireStore
             .collection(Constants.CARDS)
-            .document(cardId)
+            .whereEqualTo(Constants.CREATED_BY, "fylXMPm624SCKjRzxGcjlCG7NG33")
             .get()
             .addOnSuccessListener { document ->
-                Log.i(fragment.javaClass.simpleName, document.toString())
-                val card = document.toObject(Card::class.java)!!
-                card.id = document.id
-                // TODO call a function from fragment which takes card as an argument, containing all it's data
-            }
-            .addOnFailureListener { e ->
-                Log.e(fragment.javaClass.simpleName, e.message.toString())
-            }
-    }
-
-    fun getAllCardsCreatedByUser(fragment: MyCardsFragment) {
-        mFireStore
-            .collection(Constants.CARDS)
-            .whereArrayContains(Constants.CREATED_BY, getCurrentUserId())
-            .get()
-            .addOnSuccessListener { document ->
-                Log.i(fragment.javaClass.simpleName, document.documents.toString())
-                val cardsList: ArrayList<Card> = ArrayList()
+                Log.i("tag", document.documents.toString())
                 for(i in document.documents){
                     val card = i.toObject(Card::class.java)!!
                     card.id = i.id
                     cardsList.add(card)
                 }
-
-                // TODO fragment.addCardListToUI(cardsList)
+                Log.d("MY ID: ", "fylXMPm624SCKjRzxGcjlCG7NG33")
+                Log.d("MyCards1: ", cardsList.toString())
             }
             .addOnFailureListener { e->
-                Log.e(fragment.javaClass.simpleName, e.message.toString())
+                Log.e("tag", e.message.toString())
             }
+        Log.d("MyCards2: ", cardsList.toString())
+        return cardsList
     }
 }

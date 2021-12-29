@@ -68,6 +68,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_card_name">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tv_card_details1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/description" />
@@ -150,13 +151,27 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_detail_button_layout_marginStart"
             android:layout_marginTop="@dimen/card_detail_button_layout_marginTop"
-            android:layout_marginBottom="30dp"
             android:backgroundTint="@color/dirtyWhite"
             android:text="@string/pick_a_time"
             android:textColor="@color/black"
             android:textAllCaps="false"
             app:layout_constraintStart_toEndOf="@+id/button_due_date"
-            app:layout_constraintTop_toBottomOf="@+id/tv_due_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_due_date" />
+
+        <Button
+            android:id="@+id/update_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:text="@string/update_card"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toEndOf="@+id/button_due_date"
+            app:layout_constraintTop_toBottomOf="@+id/button_due_time"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
