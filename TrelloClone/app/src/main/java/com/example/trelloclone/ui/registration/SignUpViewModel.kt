@@ -15,7 +15,7 @@ class SignUpViewModel(): ViewModel() {
                 false
             }
 
-            isEmailValid(email) -> {
+            !isEmailValid(email) -> {
                 showToast("The email is not valid!", context)
                 false
             }
@@ -26,7 +26,7 @@ class SignUpViewModel(): ViewModel() {
             }
 
 
-            isPasswordValid(password) -> {
+            !isPasswordValid(password) -> {
                 showToast("The password is not valid!", context)
                 false
             }
