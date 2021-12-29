@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentLoginBinding
+import com.example.trelloclone.firebase.Firestore
 import com.example.trelloclone.ui.progressdialog.ProgressDialog
 import com.example.trelloclone.utils.AppLevelFunctions.Companion.showToast
 import com.example.trelloclone.utils.Constants
@@ -68,6 +69,7 @@ class LoginFragment() : Fragment(), ProgressDialog {
                     hideProgressDialog()
                     if (task.isSuccessful) {
                         showToast("Authentication success!", requireContext())
+                        Firestore().loadUserData(this)
                         findNavController().navigate(R.id.action_loginFragment_to_nav_home)
                     } else {
                         showToast(task.exception!!.message.toString(), requireContext())

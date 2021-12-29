@@ -2,11 +2,14 @@ package com.example.trelloclone.firebase
 
 import android.util.Log
 import androidx.fragment.app.Fragment
+import com.example.trelloclone.MainActivity
 import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.Card
+import com.example.trelloclone.models.TaskList
 import com.example.trelloclone.models.User
 import com.example.trelloclone.ui.cards.CardDetailFragment
 import com.example.trelloclone.ui.cards.MyCardsFragment
+import com.example.trelloclone.ui.login.LoginFragment
 import com.example.trelloclone.ui.registration.SignUpFragment
 import com.example.trelloclone.utils.AppLevelFunctions
 import com.example.trelloclone.utils.Constants
@@ -18,6 +21,15 @@ class Firestore {
 
     private val mFireStore = FirebaseFirestore.getInstance()
 
+
+    /**
+     * USER RELATED DB FUNCTIONS
+     */
+
+    /**
+     * Function to manage the registration of a new user
+     * uses basic firebaseauthentication method
+     */
     fun registerUser(fragment: SignUpFragment, userInfo: User) {
         mFireStore
             .collection(Constants.USERS)
@@ -31,6 +43,9 @@ class Firestore {
             }
     }
 
+    /**
+     * Creating a user id for the registration
+     */
     private fun getCurrentUserId(): String {
         val currentUser = FirebaseAuth.getInstance().currentUser
         var currentUserID = ""
@@ -41,6 +56,32 @@ class Firestore {
         return currentUserID
     }
 
+    fun loadUserData(caller: Any){
+        mFireStore
+            .collection(Constants.USERS)
+            .document(getCurrentUserId())
+            .get()
+            .addOnSuccessListener { document ->
+                val loggedInUser = document.toObject(User::class.java)
+                Log.d("LOGGEDINUSER", loggedInUser.toString())
+                when (caller) {
+                    is MainActivity -> caller.updateNavigationUserDetails(loggedInUser)
+                    //is LoginFragment -> caller.setLoggedInUserui(loggedInUser)
+                   // is ProfileFragment -> caller.setUserDataInUI(loggedInUser!!)
+                }
+            }
+            .addOnFailureListener {
+                Log.e(caller.javaClass.simpleName, "Error getting documents")
+            }
+    }
+
+    /**
+     * CARD RELATED DB FUNCTIONS
+     */
+
+    /**
+     * Adding a new card in the database
+     */
     fun addCard(fragment: MyCardsFragment, cardInfo: Card) {
         mFireStore
             .collection(Constants.CARDS)
@@ -52,6 +93,9 @@ class Firestore {
             }
     }
 
+    /**
+     * Function to update the details of a card based on id
+     */
     fun updateCardDetails(fragment: CardDetailFragment, cardInfo: Card) {
         mFireStore
             .collection(Constants.CARDS)
@@ -64,6 +108,10 @@ class Firestore {
             }
     }
 
+    /**
+     * Getting the cards created by the logged in user
+     * They can be viewed in the MyCards section of the app
+     */
     fun getAllCardsCreatedByUser() : ArrayList<Card> {
         val cardsList: ArrayList<Card> = ArrayList()
         mFireStore
@@ -83,6 +131,30 @@ class Firestore {
         return cardsList
     }
 
+    /**
+     * Function to delete one particular card from the database
+     */
+    fun deleteCard(card: Card){
+        mFireStore
+            .collection(Constants.CARDS)
+            .document(card.id)
+            .delete()
+            .addOnSuccessListener {
+                Log.i("Card_Del", "Card deleted")
+            }
+            .addOnFailureListener {
+                Log.i("Card_Del","Some error occurred")
+            }
+    }
+
+
+    /**
+     * BOARD RELATED DB FUNCTIONS
+     */
+
+    /**
+     * Function to add a new board created by the user in to the db with generated id
+     */
     fun addBoard(fragment: Fragment, boardInfo: Board) {
         mFireStore
             .collection(Constants.BOARDS)
@@ -94,6 +166,10 @@ class Firestore {
             }
     }
 
+    /**
+     * Function to update a board's details
+     * Based on the board id
+     */
     fun updateBoard(fragment: Fragment, boardInfo: Board) {
         mFireStore
             .collection(Constants.BOARDS)
@@ -106,14 +182,19 @@ class Firestore {
             }
     }
 
-    fun getBoards(fragment: Fragment) {
+    /**
+     * Function to get the boards for the current logged in user
+     * shows all the boards which he is member in
+     */
+    fun getBoards(fragment: Fragment): ArrayList<Board> {
+        val boardList: ArrayList<Board> = ArrayList()
+
         mFireStore
             .collection(Constants.BOARDS)
             .whereArrayContains("members", AppLevelFunctions.getCurrentUserID())
             .get()
             .addOnSuccessListener { document ->
                 Log.i(fragment.javaClass.simpleName, document.documents.toString())
-                val boardList: ArrayList<Board> = ArrayList()
                 for (i in document.documents) {
                     val board = i.toObject(Board::class.java)!!
                     board.id = i.id
@@ -125,5 +206,97 @@ class Firestore {
             .addOnFailureListener { e ->
                 Log.e(fragment.javaClass.simpleName, e.message.toString())
             }
+        return boardList
+    }
+
+    /**
+     * Function to delete one particular board from the database by id
+     */
+    fun deleteBoard(board: Board){
+        mFireStore
+            .collection(Constants.BOARDS)
+            .document(board.id)
+            .delete()
+            .addOnSuccessListener {
+                Log.i("Board_Del", "Board deleted")
+            }
+            .addOnFailureListener {
+                Log.i("Board_Del","Some error occurred")
+            }
+    }
+
+
+    /**
+     * TASKLIST RELATED DB FUNCTIONS
+     */
+
+    /**
+     * Function to add a new list in the db
+     */
+    fun addList(list:TaskList)  {
+        mFireStore
+            .collection(Constants.LIST)
+            .add(list)
+            .addOnSuccessListener {
+                Log.i("List_Add", "List added successfully")
+            }
+            .addOnFailureListener {
+                Log.i("List_Add","Some error occurred")
+            }
+    }
+
+    /**
+     * Function to rename a list in DB
+     */
+    fun renameList(list: TaskList) {
+        mFireStore
+            .collection(Constants.LIST)
+            .document(list.id)
+            .update("listName", list.listName)
+            .addOnSuccessListener {
+                Log.i("List_Rename", "List renamed successfully")
+            }
+            .addOnFailureListener {
+                Log.i("List_Rename", "Some error occurred")
+            }
+    }
+
+    /**
+     * Function to delete a list from db
+     */
+    fun deleteList(list: TaskList) {
+        mFireStore
+            .collection(Constants.LIST)
+            .document(list.id)
+            .delete()
+            .addOnSuccessListener {
+                Log.i("List_Del", "List deleted")
+            }
+            .addOnFailureListener {
+                Log.i("List_Del","Some error occurred")
+            }
+    }
+
+    /**
+     * Function to get lists for one specific boardId
+     */
+    fun getListsForBoard(boardId: String): ArrayList<TaskList> {
+        val taskList: ArrayList<TaskList> = ArrayList()
+        mFireStore
+            .collection(Constants.LIST)
+            .whereEqualTo(Constants.BOARD_ID, boardId)
+            .get()
+            .addOnSuccessListener { document ->
+                for(i in document.documents) {
+                    val list = i.toObject(TaskList::class.java)!!
+                    list.id = i.id
+                    taskList.add(list)
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.i("tag", e.message.toString())
+            }
+        return taskList
     }
 }
+
