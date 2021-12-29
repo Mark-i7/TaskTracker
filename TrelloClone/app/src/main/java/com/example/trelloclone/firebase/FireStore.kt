@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.Card
 import com.example.trelloclone.models.User
-import com.example.trelloclone.ui.fragment.CardDetailFragment
-import com.example.trelloclone.ui.fragment.MyCardsFragment
+import com.example.trelloclone.ui.cards.CardDetailFragment
+import com.example.trelloclone.ui.cards.MyCardsFragment
 import com.example.trelloclone.ui.registration.SignUpFragment
 import com.example.trelloclone.utils.AppLevelFunctions
 import com.example.trelloclone.utils.Constants
@@ -64,43 +64,23 @@ class Firestore {
             }
     }
 
-    fun getCardDetails(fragment: CardDetailFragment, cardId: String) {
-        mFireStore
-            .collection(Constants.CARDS)
-            .document(cardId)
-            .get()
-            .addOnSuccessListener { document ->
-                Log.i(fragment.javaClass.simpleName, document.toString())
-                val card = document.toObject(Card::class.java)!!
-                card.id = document.id
-                Log.d("CardDetails: ", card.toString())
-                // TODO call a function from fragment which takes card as an argument, containing all it's data
-            }
-            .addOnFailureListener { e ->
-                Log.e(fragment.javaClass.simpleName, e.message.toString())
-            }
-    }
-
-    fun getAllCardsCreatedByUser(fragment: MyCardsFragment) {
+    fun getAllCardsCreatedByUser() : ArrayList<Card> {
+        val cardsList: ArrayList<Card> = ArrayList()
         mFireStore
             .collection(Constants.CARDS)
             .whereEqualTo(Constants.CREATED_BY, AppLevelFunctions.getCurrentUserID())
             .get()
             .addOnSuccessListener { document ->
-                Log.i(fragment.javaClass.simpleName, document.documents.toString())
-                val cardsList: ArrayList<Card> = ArrayList()
-                for (i in document.documents) {
+                for(i in document.documents) {
                     val card = i.toObject(Card::class.java)!!
                     card.id = i.id
                     cardsList.add(card)
                 }
-                Log.d("MY ID: ", AppLevelFunctions.getCurrentUserID())
-                Log.d("MyCards: ", cardsList.toString())
-                // TODO fragment.addCardListToUI(cardsList)
             }
             .addOnFailureListener { e ->
-                Log.e(fragment.javaClass.simpleName, e.message.toString())
+                Log.i("tag", e.message.toString())
             }
+        return cardsList
     }
 
     fun addBoard(fragment: Fragment, boardInfo: Board) {

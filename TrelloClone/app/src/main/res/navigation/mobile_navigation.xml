@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/nav_my_card"
-        android:name="com.example.trelloclone.ui.fragment.MyCardsFragment"
+        android:name="com.example.trelloclone.ui.cards.MyCardsFragment"
         android:label="@string/my_cards_fragment" >
         <action
             android:id="@+id/action_nav_my_card_to_cardDetailFragment"
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/cardDetailFragment"
-        android:name="com.example.trelloclone.ui.fragment.CardDetailFragment"
+        android:name="com.example.trelloclone.ui.cards.CardDetailFragment"
         android:label="fragment_card_detail"
         tools:layout="@layout/fragment_card_detail" />
 </navigation>
