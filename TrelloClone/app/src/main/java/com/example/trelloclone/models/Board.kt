@@ -7,14 +7,14 @@ class Board(
     id: String,
     var boardName: String,
     var imageId: Int,
-    var cardList: ArrayList<Card>,
+    var members: ArrayList<String>, // user ids
     viewType: Int
 ) : BaseClass(id, viewType), Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readInt(),
-        parcel.createTypedArrayList(Card.CREATOR)!!,
+        parcel.createStringArrayList()!!,
         parcel.readInt()
     )
 
@@ -22,7 +22,7 @@ class Board(
         parcel.writeString(id)
         parcel.writeString(boardName)
         parcel.writeInt(imageId)
-        parcel.writeTypedList(cardList)
+        parcel.writeStringList(members)
         parcel.writeInt(viewType)
     }
 

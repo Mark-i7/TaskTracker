@@ -5,5 +5,4 @@ object Constants {
     const val CARDS = "cards"
     const val BOARDS = "boards"
     const val CREATED_BY = "createdBy"
-    lateinit var CURRENT_USER_ID: String;
 }

@@ -42,6 +42,7 @@ class CardDetailFragment : Fragment() {
     private var startTime = ""
     private var dueDate = ""
     private var dueTime = ""
+    private lateinit var card: Card
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,11 +111,14 @@ class CardDetailFragment : Fragment() {
             sharedViewModel.updateCardDetails(
                 this, Card(
                     currentCard.id,
+                    currentCard.boardId,
                     currentCard.createdBy,
                     currentCard.assignedTo,
                     cardName.text.toString(),
-                    "$startDate $startTime",
-                    "$dueDate $dueTime",
+                    startDate,
+                    startTime,
+                    dueDate,
+                    dueTime,
                     currentCard.imageId,
                     currentCard.details,
                     cardDetails.text.toString(),

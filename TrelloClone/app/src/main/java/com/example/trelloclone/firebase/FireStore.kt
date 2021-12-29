@@ -1,11 +1,14 @@
 package com.example.trelloclone.firebase
 
 import android.util.Log
+import androidx.fragment.app.Fragment
+import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.Card
 import com.example.trelloclone.models.User
 import com.example.trelloclone.ui.cards.CardDetailFragment
 import com.example.trelloclone.ui.cards.MyCardsFragment
 import com.example.trelloclone.ui.registration.SignUpFragment
+import com.example.trelloclone.utils.AppLevelFunctions
 import com.example.trelloclone.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -65,22 +68,62 @@ class Firestore {
         val cardsList: ArrayList<Card> = ArrayList()
         mFireStore
             .collection(Constants.CARDS)
-            .whereEqualTo(Constants.CREATED_BY, "fylXMPm624SCKjRzxGcjlCG7NG33")
+            .whereEqualTo(Constants.CREATED_BY, AppLevelFunctions.getCurrentUserID())
             .get()
             .addOnSuccessListener { document ->
-                Log.i("tag", document.documents.toString())
-                for(i in document.documents){
+                for(i in document.documents) {
                     val card = i.toObject(Card::class.java)!!
                     card.id = i.id
                     cardsList.add(card)
                 }
-                Log.d("MY ID: ", "fylXMPm624SCKjRzxGcjlCG7NG33")
-                Log.d("MyCards1: ", cardsList.toString())
             }
-            .addOnFailureListener { e->
-                Log.e("tag", e.message.toString())
+            .addOnFailureListener { e ->
+                Log.i("tag", e.message.toString())
             }
-        Log.d("MyCards2: ", cardsList.toString())
         return cardsList
+    }
+
+    fun addBoard(fragment: Fragment, boardInfo: Board) {
+        mFireStore
+            .collection(Constants.BOARDS)
+            .add(boardInfo)
+            .addOnSuccessListener {
+                // TODO: fragment.boardAddedSuccess()
+            }.addOnFailureListener {
+                Log.e(fragment.javaClass.simpleName, "Error writing documents")
+            }
+    }
+
+    fun updateBoard(fragment: Fragment, boardInfo: Board) {
+        mFireStore
+            .collection(Constants.BOARDS)
+            .document(boardInfo.id)
+            .set(boardInfo, SetOptions.merge())
+            .addOnSuccessListener {
+                // TODO: fragment.boardUpdatedSuccess()
+            }.addOnFailureListener {
+                Log.e(fragment.javaClass.simpleName, "Error writing documents")
+            }
+    }
+
+    fun getBoards(fragment: Fragment) {
+        mFireStore
+            .collection(Constants.BOARDS)
+            .whereArrayContains("members", AppLevelFunctions.getCurrentUserID())
+            .get()
+            .addOnSuccessListener { document ->
+                Log.i(fragment.javaClass.simpleName, document.documents.toString())
+                val boardList: ArrayList<Board> = ArrayList()
+                for (i in document.documents) {
+                    val board = i.toObject(Board::class.java)!!
+                    board.id = i.id
+                    boardList.add(board)
+                }
+                Log.d("MyBoards: ", boardList.toString())
+                // TODO fragment.addBoardListToUI(boardsList)
+            }
+            .addOnFailureListener { e ->
+                Log.e(fragment.javaClass.simpleName, e.message.toString())
+            }
     }
 }
