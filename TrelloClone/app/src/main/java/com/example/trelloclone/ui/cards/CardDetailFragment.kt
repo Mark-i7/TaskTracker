@@ -1,7 +1,9 @@
 package com.example.trelloclone.ui.cards
 
+import android.net.Uri
 import android.os.Bundle
 import android.text.format.DateFormat.is24HourFormat
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +14,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentCardDetailBinding
 import com.example.trelloclone.models.Card
+import com.example.trelloclone.utils.AppLevelFunctions
 import com.example.trelloclone.viewmodels.SharedViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.common.io.Files
+import com.google.firebase.storage.FirebaseStorage
 
 class CardDetailFragment : Fragment() {
 
@@ -42,6 +48,9 @@ class CardDetailFragment : Fragment() {
     private var startTime = ""
     private var dueDate = ""
     private var dueTime = ""
+    private var selectedImageUri: Uri? = null
+    private var cardImageUrl = ""
+
     private lateinit var card: Card
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +80,8 @@ class CardDetailFragment : Fragment() {
         ActivityResultContracts.GetContent()
     ) {
         cardDetailImage.setImageURI(it)
+        selectedImageUri = it
+        currentCard.image = it.toString()
     }
 
 
@@ -111,7 +122,7 @@ class CardDetailFragment : Fragment() {
         }
 
         updateButton.setOnClickListener {
-
+            uploadCardImage()
             sharedViewModel.updateCardDetails(
                 this, Card(
                     currentCard.id,
@@ -125,7 +136,7 @@ class CardDetailFragment : Fragment() {
                     startTime,
                     dueDate,
                     dueTime,
-                    currentCard.imageId,
+                    currentCard.image,
                     currentCard.details,
                     cardDetails.text.toString(),
                     currentCard.viewType
@@ -139,6 +150,12 @@ class CardDetailFragment : Fragment() {
         cardDetails.setText(currentCard.details)
         startDateAndTime.text = "${currentCard.startDate} at ${currentCard.startTime}"
         dueDateAndTime.text = "${currentCard.dueDate} at ${currentCard.dueTime}"
+        Glide
+            .with(requireContext())
+            .load(currentCard.image)
+            .centerCrop()
+            .placeholder(R.drawable.frame)
+            .into(cardDetailImage)
     }
 
     private fun openTimePicker(textView: TextView, text: String, type: Int) {
@@ -194,5 +211,31 @@ class CardDetailFragment : Fragment() {
 
     fun cardUpdatedSuccess() {
         Toast.makeText(requireContext(), "Card successfully updated", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun uploadCardImage() {
+        if (selectedImageUri != null) {
+            val storageRef = FirebaseStorage.getInstance().reference.child(
+                "CARD_IMAGE" + System.currentTimeMillis() + "." + Files.getFileExtension(
+                    selectedImageUri.toString()
+                )
+            )
+
+            storageRef.putFile(selectedImageUri!!)
+                .addOnSuccessListener {
+                        taskSnapshot ->
+                    Log.i("Firebase Image URL", taskSnapshot.metadata!!.reference!!.downloadUrl.toString())
+                    taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
+                            uri ->
+                        Log.i("Downloadable Image File", uri.toString())
+                        cardImageUrl = uri.toString()
+
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("Upload error", exception.message.toString())
+                    AppLevelFunctions.showToast(exception.message.toString(), requireContext())
+                }
+        }
     }
 }

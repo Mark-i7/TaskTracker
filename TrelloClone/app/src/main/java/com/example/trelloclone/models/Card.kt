@@ -15,7 +15,7 @@ class Card(
     var startTime: String,
     var dueDate: String,
     var dueTime: String,
-    var imageId: Int,
+    var image: String,
     var details: String,
     var description: String,
     viewType: Int
@@ -23,7 +23,7 @@ class Card(
 
     constructor() : this(
         "", "", "", "", "", arrayListOf(""), null, "", "",
-        "", "", 0, "", "", 0
+        "", "", "0", "", "", 0
     )
 
     constructor(parcel: Parcel) : this(
@@ -38,7 +38,7 @@ class Card(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readInt(),
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readInt()
@@ -56,7 +56,7 @@ class Card(
         parcel.writeString(startTime)
         parcel.writeString(dueDate)
         parcel.writeString(dueTime)
-        parcel.writeInt(imageId)
+        parcel.writeString(image)
         parcel.writeString(details)
         parcel.writeString(description)
         parcel.writeInt(viewType)
@@ -67,7 +67,7 @@ class Card(
     }
 
     override fun toString(): String {
-        return "Card(boardId='$boardId', listId='$listId', listName='$listName', createdBy='$createdBy', assignedTo=$assignedTo, cardTitle=$cardTitle, startDate='$startDate', startTime='$startTime', dueDate='$dueDate', dueTime='$dueTime', imageId=$imageId, details='$details', description='$description')"
+        return "Card(createdBy='$createdBy', assignedTo=$assignedTo, cardTitle=$cardTitle, startDate='$startDate', dueDate='$dueDate', image=$image, details='$details', description='$description')"
     }
 
     companion object CREATOR : Parcelable.Creator<Card> {

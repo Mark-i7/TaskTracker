@@ -39,6 +39,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
         initializeElements()
         setListeners()
+        Firestore().loadUserData(this)
         return root
     }
 
