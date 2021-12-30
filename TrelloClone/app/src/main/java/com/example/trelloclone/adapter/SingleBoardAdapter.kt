@@ -49,7 +49,7 @@ class SingleBoardAdapter(
                         val currentPosition = this.adapterPosition
                         /** Create a card with the title specified by user */
                         val card = Card("", "", "", list[currentPosition].listName, AppLevelFunctions.getCurrentUserID(), ArrayList<String>(), cardNameTextView.text.toString(),
-                            "", "", "","", 0, "", "", 0)
+                            "", "", "","", "0", "", "", 0)
                         cardList.add(card)
                         listForNewCardItems.add(card)
                         notifyDataSetChanged()
