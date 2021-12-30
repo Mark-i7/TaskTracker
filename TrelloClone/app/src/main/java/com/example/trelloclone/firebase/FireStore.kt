@@ -8,7 +8,6 @@ import com.example.trelloclone.models.Card
 import com.example.trelloclone.models.TaskList
 import com.example.trelloclone.models.User
 import com.example.trelloclone.ui.cards.CardDetailFragment
-import com.example.trelloclone.ui.cards.MyCardsFragment
 import com.example.trelloclone.ui.login.LoginFragment
 import com.example.trelloclone.ui.registration.SignUpFragment
 import com.example.trelloclone.utils.AppLevelFunctions
@@ -191,7 +190,7 @@ class Firestore {
      * Function to get the boards for the current logged in user
      * shows all the boards which he is member in
      */
-    fun getBoards() : ArrayList<Board> {
+    fun getBoards(callback : FirebaseCallbackBoards) {
         val boardList: ArrayList<Board> = ArrayList()
         mFireStore
             .collection(Constants.BOARDS)
@@ -205,11 +204,11 @@ class Firestore {
                     boardList.add(board)
                 }
                 Log.d("MyBoards: ", boardList.toString())
+                callback.onResponse(boardList)
             }
             .addOnFailureListener { e ->
                 Log.e("getBoards", e.message.toString())
             }
-        return boardList
     }
 
     /**
@@ -283,7 +282,7 @@ class Firestore {
     /**
      * Function to get lists for one specific boardId
      */
-    fun getListsForBoard(boardId: String): ArrayList<TaskList> {
+    fun getListsForBoard(boardId: String, callback : FirebaseCallbackTasks) {
         val taskList: ArrayList<TaskList> = ArrayList()
         mFireStore
             .collection(Constants.LIST)
@@ -296,11 +295,20 @@ class Firestore {
                     taskList.add(list)
                 }
                 Log.i("taskList", taskList.toString())
+                callback.onResponse(taskList)
             }
             .addOnFailureListener { e ->
                 Log.i("tag", e.message.toString())
             }
-        return taskList
     }
 }
+
+interface FirebaseCallbackTasks {
+    fun onResponse(list : ArrayList<TaskList>)
+}
+
+interface FirebaseCallbackBoards {
+    fun onResponse(list : ArrayList<Board>)
+}
+
 

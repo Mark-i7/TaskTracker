@@ -50,11 +50,15 @@ class EditBoardFragment : Fragment() {
         setListeners()
         setupRecyclerview()
         sharedViewModel.taskLists.observe(viewLifecycleOwner) {
-            taskListsList.addAll(sharedViewModel.taskLists.value!!)
+            adapter.setTaskListData(sharedViewModel.taskLists.value!!)
+            Log.i("itt1", sharedViewModel.taskLists.value.toString())
+//            taskListsList.addAll(sharedViewModel.taskLists.value!!)
             adapter.notifyDataSetChanged()
         }
         sharedViewModel.cards.observe(viewLifecycleOwner) {
-            cardList.addAll(sharedViewModel.cards.value!!)
+            adapter.setCardData(sharedViewModel.cards.value!!.filter { it.boardId == currentBoard.id } as ArrayList<Card>)
+            Log.i("itt2", sharedViewModel.cards.value.toString())
+            //cardList.addAll(sharedViewModel.cards.value!!)
             adapter.notifyDataSetChanged()
         }
         return root
@@ -81,9 +85,9 @@ class EditBoardFragment : Fragment() {
             if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
                 /** Create a list with the title specified by user */
                 val taskList = TaskList("", currentBoard.id, editText.text.toString())
-                taskListsList.add(taskList)
+                //taskListsList.add(taskList)
+                sharedViewModel.taskLists.value!!.add(taskList)
                 listForNewTaskListItems.add(taskList)
-                adapter.notifyDataSetChanged()
                 button.visibility = View.VISIBLE
                 editText.visibility = View.GONE
                 return@setOnKeyListener true

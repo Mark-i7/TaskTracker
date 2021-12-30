@@ -30,7 +30,7 @@
 
     <!--Card details and my cards page-->
     <string name="menu_my_cards">My cards</string>
-    <string name="menu_edit_board">Edit board</string>
+    <string name="menu_my_board">My boards</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="create_board_title">Create Board</string>

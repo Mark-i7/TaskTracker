@@ -2,11 +2,14 @@ package com.example.trelloclone.viewmodels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.trelloclone.firebase.FirebaseCallbackBoards
+import com.example.trelloclone.firebase.FirebaseCallbackTasks
 import com.example.trelloclone.firebase.Firestore
 import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.Card
 import com.example.trelloclone.models.TaskList
 import com.example.trelloclone.ui.cards.CardDetailFragment
+
 
 class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
 
@@ -14,12 +17,11 @@ class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
     var boards: MutableLiveData<ArrayList<Board>> = MutableLiveData()
     var taskLists : MutableLiveData<ArrayList<TaskList>> = MutableLiveData()
     var currentCardId: String = ""
-    var currentBoardId: String = "bbGWM4wxEg3vSJbY1JRl"
+    var currentBoardId: String = ""
 
     init {
         getAllCardsCreatedByUser()
         getAllBoardsCreatedByUser()
-        getListsForBoard(currentBoardId)
     }
 
     /** Card related operations */
@@ -62,8 +64,12 @@ class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
         fireStore.updateBoard(fragment, boardInfo)
     }
 
-    private fun getAllBoardsCreatedByUser(){
-        boards.value = fireStore.getBoards()
+    fun getAllBoardsCreatedByUser(){
+        fireStore.getBoards(object : FirebaseCallbackBoards{
+            override fun onResponse(list: ArrayList<Board>) {
+                boards.value = list
+            }
+        })
     }
 
     fun getCurrentBoard(): Board {
@@ -90,6 +96,10 @@ class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
     }
 
     fun getListsForBoard(boardId: String){
-        taskLists.value = fireStore.getListsForBoard(boardId)
+        fireStore.getListsForBoard(boardId, object : FirebaseCallbackTasks {
+            override fun onResponse(list: ArrayList<TaskList>) {
+                taskLists.value = list
+            }
+        })
     }
 }
