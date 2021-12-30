@@ -3,6 +3,13 @@
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/moldo/Desktop/EGYETEM/EGYETEMIII/Szoftverfejlesztes/TaskTracker/TrelloClone/app/src/main/res/layout/fragment_login.xml" value="0.1265625" />
+      </map>
+    </option>
+  </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>

@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.trelloclone.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_my_card"
+            app:destination="@id/nav_my_card" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -22,6 +26,28 @@
         android:name="com.example.trelloclone.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.trelloclone.ui.registration.SignUpFragment"
+        android:label="@string/sign_up"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.trelloclone.ui.login.LoginFragment"
+        android:label="@string/log_in"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/nav_my_card"
         android:name="com.example.trelloclone.ui.fragment.MyCardsFragment"
@@ -37,4 +63,20 @@
         tools:layout="@layout/fragment_create_board" >
 
     </fragment>
+        android:name="com.example.trelloclone.ui.cards.MyCardsFragment"
+        android:label="Edit card">
+        <action
+            android:id="@+id/action_nav_my_card_to_cardDetailFragment"
+            app:destination="@id/cardDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cardDetailFragment"
+        android:name="com.example.trelloclone.ui.cards.CardDetailFragment"
+        android:label="fragment_card_detail"
+        tools:layout="@layout/fragment_card_detail" />
+    <fragment
+        android:id="@+id/editBoardFragment"
+        android:name="com.example.trelloclone.ui.board.EditBoardFragment"
+        android:label="Edit board"
+        tools:layout="@layout/fragment_edit_board" />
 </navigation>

@@ -7,19 +7,35 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trelloclone.R
-import com.example.trelloclone.model.BaseClass
-import com.example.trelloclone.model.Board
-import com.example.trelloclone.model.Card
+import com.example.trelloclone.models.BaseClass
+import com.example.trelloclone.models.Board
+import com.example.trelloclone.models.Card
+import com.example.trelloclone.ui.cards.MyCardsFragment
 
-class RecyclerViewAdapter(private val list : List<BaseClass>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CardsAdapter(private var list: List<BaseClass>,
+                   private val listener: MyCardsFragment
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class CardHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    interface OnItemClickListener{
+        fun onItemClick(id: String)
+    }
+
+    inner class CardHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val cardName: TextView = itemView.findViewById(R.id.tv_card_name)
         private val dueDate : TextView = itemView.findViewById(R.id.tv_due_date)
         private val image : ImageView = itemView.findViewById(R.id.user_profile_image)
         fun bindCard(card: Card) {
-            cardName.text = card.cardName
+            cardName.text = card.cardTitle
             dueDate.text = card.dueDate
+        }
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val currentPosition = this.adapterPosition
+            listener.onItemClick(list[currentPosition].id)
         }
     }
 
@@ -65,5 +81,10 @@ class RecyclerViewAdapter(private val list : List<BaseClass>) : RecyclerView.Ada
 
     override fun getItemViewType(position: Int): Int {
         return list[position].viewType
+    }
+
+    // Update the list
+    fun setData(newlist: ArrayList<BaseClass>){
+        list = newlist
     }
 }
