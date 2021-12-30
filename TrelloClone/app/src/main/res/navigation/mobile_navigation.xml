@@ -13,19 +13,11 @@
         <action
             android:id="@+id/action_nav_home_to_nav_my_card"
             app:destination="@id/nav_my_card" />
+        <action
+            android:id="@+id/action_nav_home_to_myBoardsFragment"
+            app:destination="@id/myBoardsFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.trelloclone.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.trelloclone.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.trelloclone.ui.registration.SignUpFragment"
@@ -51,36 +43,37 @@
     <fragment
         android:id="@+id/nav_my_card"
         android:name="com.example.trelloclone.ui.cards.MyCardsFragment"
-        android:label="MyCardsFragment" />
+        android:label="@string/menu_my_cards">
+        <action
+            android:id="@+id/action_nav_my_card_to_cardDetailFragment"
+            app:destination="@id/cardDetailFragment" />
+        <action
+            android:id="@+id/action_nav_my_card_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
     <fragment
         android:id="@+id/nav_create_board"
         android:name="com.example.trelloclone.ui.board.CreateBoard"
-        android:label="fragment_create_board"
+        android:label="@string/create_board"
         tools:layout="@layout/fragment_create_board" >
-
         <action
             android:id="@+id/action_nav_create_board_to_myBoardsFragment"
             app:destination="@id/myBoardsFragment" />
     </fragment>
-        android:name="com.example.trelloclone.ui.cards.MyCardsFragment"
-        android:label="Edit card">
-        <action
-            android:id="@+id/action_nav_my_card_to_cardDetailFragment"
-            app:destination="@id/cardDetailFragment" />
     <fragment
         android:id="@+id/cardDetailFragment"
         android:name="com.example.trelloclone.ui.cards.CardDetailFragment"
-        android:label="fragment_card_detail"
+        android:label="@string/card_details"
         tools:layout="@layout/fragment_card_detail" />
     <fragment
         android:id="@+id/editBoardFragment"
         android:name="com.example.trelloclone.ui.board.EditBoardFragment"
-        android:label="Edit board"
+        android:label="@string/edit_board"
         tools:layout="@layout/fragment_edit_board" />
     <fragment
         android:id="@+id/myBoardsFragment"
         android:name="com.example.trelloclone.ui.board.MyBoardsFragment"
-        android:label="fragment_my_boards"
+        android:label="@string/my_boards"
         tools:layout="@layout/fragment_my_boards" >
         <action
             android:id="@+id/action_myBoardsFragment_to_editBoardFragment"
@@ -88,5 +81,8 @@
         <action
             android:id="@+id/action_myBoardsFragment_to_nav_create_board2"
             app:destination="@id/nav_create_board" />
+        <action
+            android:id="@+id/action_myBoardsFragment_to_nav_home"
+            app:destination="@id/nav_home" />
     </fragment>
 </navigation>

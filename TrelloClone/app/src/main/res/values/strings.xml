@@ -56,4 +56,8 @@
     <string name="let_s_start_with_boards">Let\'s start with boards...</string>
     <string name="add_card_name">Add card name</string>
     <string name="add_card">+ Add card</string>
+    <string name="create_board">Create board</string>
+    <string name="card_details">Card details</string>
+    <string name="edit_board">Edit board</string>
+    <string name="my_boards">My boards</string>
 </resources>

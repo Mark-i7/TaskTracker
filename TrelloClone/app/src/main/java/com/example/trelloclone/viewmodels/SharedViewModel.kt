@@ -41,6 +41,7 @@ class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
         currentCard.dueTime = cardInfo.dueTime
         currentCard.dueDate = cardInfo.dueDate
         currentCard.details = cardInfo.details
+        currentCard.description = cardInfo.description
     }
 
     fun getCurrentCard(): Card {

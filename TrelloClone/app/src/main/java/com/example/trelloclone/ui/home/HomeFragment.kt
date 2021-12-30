@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
         }
 
         boardButton.setOnClickListener{
-            findNavController().navigate(R.id.nav_create_board)
+            findNavController().navigate(R.id.action_nav_home_to_myBoardsFragment)
         }
     }
 
