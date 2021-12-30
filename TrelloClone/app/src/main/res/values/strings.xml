@@ -32,6 +32,13 @@
     <string name="menu_my_cards">My cards</string>
     <string name="menu_edit_board">Edit board</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="create_board_title">Create Board</string>
+    <string name="create">CREATE</string>
+    <string name="board_name">Board Name</string>
+    <string name="update">UPDATE</string>
+    <string name="image_contentDescription">image</string>
+
     <string name="my_cards_fragment">MyCardsFragment</string>
     <string name="give_us_details_about_your_card">Give us details about your card</string>
     <string name="description">Description...</string>

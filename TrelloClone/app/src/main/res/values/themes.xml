@@ -23,6 +23,9 @@
         <item name="android:windowBackground">@drawable/rectangle_blue</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
+
     <style name="Theme.TrelloClone.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.TrelloClone.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

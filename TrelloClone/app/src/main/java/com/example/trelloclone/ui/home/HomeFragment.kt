@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.navigation.fragment.findNavController
 import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentHomeBinding
@@ -54,7 +58,7 @@ class HomeFragment : Fragment() {
         }
 
         boardButton.setOnClickListener{
-            //TODO
+            findNavController().navigate(R.id.nav_create_board)
         }
     }
 

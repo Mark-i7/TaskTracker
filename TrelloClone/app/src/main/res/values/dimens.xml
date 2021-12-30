@@ -4,7 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="btn_marginStartEnd">20dp</dimen>
     <dimen name="btn_paddingTopBottom">8dp</dimen>
@@ -61,6 +60,7 @@
     <dimen name="iv2_layout_marginStart">20dp</dimen>
     <dimen name="tv3_layout_marginStart">30dp</dimen>
     <dimen name="tv3_textSize">18sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
     <!--    Card details-->
     <dimen name="card_detail_iv_layout_height">180dp</dimen>
