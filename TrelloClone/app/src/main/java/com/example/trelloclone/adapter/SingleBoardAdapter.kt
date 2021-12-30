@@ -11,12 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.example.trelloclone.R
 import com.example.trelloclone.models.Card
-import com.example.trelloclone.models.BoardList
+import com.example.trelloclone.models.TaskList
 import com.example.trelloclone.utils.AppLevelFunctions
 
 class SingleBoardAdapter(
-    private var list: ArrayList<BoardList>,
-    private var cardList: ArrayList<Card>
+    private var list: ArrayList<TaskList>,
+    private var cardList: ArrayList<Card>,
+    private var listForNewCardItems: ArrayList<Card>
 ) : RecyclerView.Adapter<SingleBoardAdapter.SingleBoardViewHolder>() {
 
     private val viewPool = RecycledViewPool()
@@ -47,9 +48,10 @@ class SingleBoardAdapter(
                     if (keyEvent!!.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
                         val currentPosition = this.adapterPosition
                         /** Create a card with the title specified by user */
-                        val card = Card("", "", list[currentPosition].listName, AppLevelFunctions.getCurrentUserID(), ArrayList<String>(), cardNameTextView.text.toString(),
+                        val card = Card("", "", "", list[currentPosition].listName, AppLevelFunctions.getCurrentUserID(), ArrayList<String>(), cardNameTextView.text.toString(),
                             "", "", "","", 0, "", "", 0)
                         cardList.add(card)
+                        listForNewCardItems.add(card)
                         notifyDataSetChanged()
                         cardNameTextView.text = ""
                         cardNameTextView.visibility = View.GONE
@@ -80,4 +82,14 @@ class SingleBoardAdapter(
     }
 
     override fun getItemCount() = list.size
+
+    // Update the list
+    fun setCardData(newlist: ArrayList<Card>){
+        cardList = newlist
+    }
+
+    // Update the list
+    fun setTaskListData(newlist: ArrayList<TaskList>){
+        list = newlist
+    }
 }

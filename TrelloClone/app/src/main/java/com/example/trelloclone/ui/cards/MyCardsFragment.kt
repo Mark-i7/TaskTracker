@@ -63,8 +63,4 @@ class MyCardsFragment : Fragment(), OnItemClickListener {
         sharedViewModel.currentCardId = id
         findNavController().navigate(R.id.action_nav_my_card_to_cardDetailFragment)
     }
-
-    fun cardAddedSuccess() {
-        Toast.makeText(requireContext(), "Card successfully added", Toast.LENGTH_SHORT).show()
-    }
 }

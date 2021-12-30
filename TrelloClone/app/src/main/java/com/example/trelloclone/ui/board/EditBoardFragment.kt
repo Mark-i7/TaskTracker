@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.trelloclone.adapter.SingleBoardAdapter
 import com.example.trelloclone.databinding.FragmentEditBoardBinding
 import com.example.trelloclone.models.Board
-import com.example.trelloclone.models.BoardList
+import com.example.trelloclone.models.TaskList
 import com.example.trelloclone.models.Card
-import com.example.trelloclone.utils.AppLevelFunctions
 import com.example.trelloclone.viewmodels.SharedViewModel
 
 class EditBoardFragment : Fragment() {
@@ -24,17 +23,20 @@ class EditBoardFragment : Fragment() {
     private var _binding: FragmentEditBoardBinding? = null
     private val binding get() = _binding!!
     private lateinit var sharedViewModel: SharedViewModel
-    private lateinit var currentBoard: Board //TODO
+    private lateinit var currentBoard: Board
     private lateinit var recyclerView: RecyclerView
-    private lateinit var button : Button
+    private lateinit var button: Button
     private lateinit var editText: EditText
     private lateinit var adapter: SingleBoardAdapter
-    private var boardListList = ArrayList<BoardList>()
+    private var taskListsList = ArrayList<TaskList>()
     private var cardList = ArrayList<Card>()
+    private var listForNewTaskListItems = ArrayList<TaskList>()
+    private var listForNewCardItems = ArrayList<Card>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        currentBoard = sharedViewModel.getCurrentBoard()
     }
 
     override fun onCreateView(
@@ -47,18 +49,25 @@ class EditBoardFragment : Fragment() {
         initializeElements()
         setListeners()
         setupRecyclerview()
-        setValues()
+        sharedViewModel.taskLists.observe(viewLifecycleOwner) {
+            taskListsList.addAll(sharedViewModel.taskLists.value!!)
+            adapter.notifyDataSetChanged()
+        }
+        sharedViewModel.cards.observe(viewLifecycleOwner) {
+            cardList.addAll(sharedViewModel.cards.value!!)
+            adapter.notifyDataSetChanged()
+        }
         return root
     }
 
-    private fun initializeElements(){
+    private fun initializeElements() {
         recyclerView = binding.recyclerViewEditBoard
         button = binding.btnAddList
         editText = binding.etAddList
     }
 
-    private fun setupRecyclerview(){
-        adapter = SingleBoardAdapter(boardListList, cardList)
+    private fun setupRecyclerview() {
+        adapter = SingleBoardAdapter(taskListsList, cardList, listForNewCardItems)
         recyclerView.adapter = adapter
     }
 
@@ -69,9 +78,11 @@ class EditBoardFragment : Fragment() {
         }
 
         editText.setOnKeyListener { view, i, keyEvent ->
-            if(keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER){
+            if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
                 /** Create a list with the title specified by user */
-                boardListList.add(BoardList("", editText.text.toString(), "currentBoardId", AppLevelFunctions.getCurrentUserID())) //TODO
+                val taskList = TaskList("", currentBoard.id, editText.text.toString())
+                taskListsList.add(taskList)
+                listForNewTaskListItems.add(taskList)
                 adapter.notifyDataSetChanged()
                 button.visibility = View.VISIBLE
                 editText.visibility = View.GONE
@@ -82,13 +93,31 @@ class EditBoardFragment : Fragment() {
         }
     }
 
-    private fun setValues() {
-    }
-
     override fun onPause() {
         super.onPause()
+        Log.i("onPause", "onPause")
+        Log.i("cardList", listForNewCardItems.toString())
+        Log.i("taskLists", listForNewTaskListItems.toString())
         Log.i("cardList", cardList.toString())
-        Log.i("boardLists", boardListList.toString())
-    }
+        Log.i("taskLists", taskListsList.toString())
 
+        /** Add taskLists to db */
+        listForNewTaskListItems.forEach { sharedViewModel.addList(it) }
+
+        sharedViewModel.getListsForBoard(currentBoard.id)
+        sharedViewModel.taskLists.observe(viewLifecycleOwner) {
+            /** set task list id for cards*/
+            sharedViewModel.taskLists.value!!.forEach { taskList ->
+                listForNewCardItems.filter { card -> card.listName == taskList.listName }
+                    .forEach { it.listId = taskList.id }
+            }
+
+            listForNewCardItems.forEach {
+                /** Set board id for cards*/
+                it.boardId = currentBoard.id
+                /** Add cards to db */
+                sharedViewModel.addCard(it)
+            }
+        }
+    }
 }

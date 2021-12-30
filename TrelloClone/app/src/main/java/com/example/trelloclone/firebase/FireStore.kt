@@ -85,14 +85,16 @@ class Firestore {
     /**
      * Adding a new card in the database
      */
-    fun addCard(fragment: MyCardsFragment, cardInfo: Card) {
+    fun addCard(cardInfo: Card) {
         mFireStore
             .collection(Constants.CARDS)
             .add(cardInfo)
             .addOnSuccessListener {
-                fragment.cardAddedSuccess()
+                //fragment.cardAddedSuccess()
+                Log.i("addCard", "card added successfully")
             }.addOnFailureListener {
-                Log.e(fragment.javaClass.simpleName, "Error writing documents")
+                Log.e("addCard", "error")
+                //Log.e(fragment.javaClass.simpleName, "Error writing documents")
             }
     }
 
@@ -158,14 +160,14 @@ class Firestore {
     /**
      * Function to add a new board created by the user in to the db with generated id
      */
-    fun addBoard(fragment: Fragment, boardInfo: Board) {
+    fun addBoard(boardInfo: Board) {
         mFireStore
             .collection(Constants.BOARDS)
             .add(boardInfo)
             .addOnSuccessListener {
                 // TODO: fragment.boardAddedSuccess()
             }.addOnFailureListener {
-                Log.e(fragment.javaClass.simpleName, "Error writing documents")
+                Log.e("addBoard", "Error writing documents")
             }
     }
 
@@ -293,6 +295,7 @@ class Firestore {
                     list.id = i.id
                     taskList.add(list)
                 }
+                Log.i("taskList", taskList.toString())
             }
             .addOnFailureListener { e ->
                 Log.i("tag", e.message.toString())

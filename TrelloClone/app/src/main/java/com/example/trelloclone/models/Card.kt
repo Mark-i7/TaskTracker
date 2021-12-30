@@ -67,7 +67,7 @@ class Card(
     }
 
     override fun toString(): String {
-        return "Card(createdBy='$createdBy', assignedTo=$assignedTo, cardTitle=$cardTitle, startDate='$startDate', dueDate='$dueDate', imageId=$imageId, details='$details', description='$description')"
+        return "Card(boardId='$boardId', listId='$listId', listName='$listName', createdBy='$createdBy', assignedTo=$assignedTo, cardTitle=$cardTitle, startDate='$startDate', startTime='$startTime', dueDate='$dueDate', dueTime='$dueTime', imageId=$imageId, details='$details', description='$description')"
     }
 
     companion object CREATOR : Parcelable.Creator<Card> {
