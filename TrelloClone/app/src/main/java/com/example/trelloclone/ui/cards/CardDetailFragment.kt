@@ -82,6 +82,12 @@ class CardDetailFragment : Fragment() {
         cardDetailImage.setImageURI(it)
         selectedImageUri = it
         currentCard.image = it.toString()
+        Glide
+            .with(requireContext())
+            .load(currentCard.image)
+            .centerCrop()
+            .placeholder(R.drawable.frame)
+            .into(cardDetailImage)
     }
 
 

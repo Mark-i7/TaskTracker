@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.trelloclone.R
 import com.example.trelloclone.adapter.SingleBoardAdapter
 import com.example.trelloclone.databinding.FragmentEditBoardBinding
 import com.example.trelloclone.models.Board
@@ -93,7 +95,7 @@ class EditBoardFragment : Fragment() {
         }
 
         actionButton.setOnClickListener {
-
+            findNavController().navigate(R.id.action_editBoardFragment_to_membersFragment)
         }
     }
 

@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
             Glide
                 .with(this)
                 .load(user.image)
-                .centerCrop()
+                .circleCrop()
                 .placeholder(R.drawable.ic_circle_profile)
                 .into(photoImageView)
         }
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
         Glide
             .with(this)
             .load(it)
-            .centerCrop()
+            .circleCrop()
             .placeholder(R.drawable.ic_circle_profile)
             .into(photoImageView)
         mSelectedImageFileUri = it

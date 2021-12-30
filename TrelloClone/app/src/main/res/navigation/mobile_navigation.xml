@@ -69,7 +69,11 @@
         android:id="@+id/editBoardFragment"
         android:name="com.example.trelloclone.ui.board.EditBoardFragment"
         android:label="@string/edit_board"
-        tools:layout="@layout/fragment_edit_board" />
+        tools:layout="@layout/fragment_edit_board" >
+        <action
+            android:id="@+id/action_editBoardFragment_to_membersFragment"
+            app:destination="@id/membersFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myBoardsFragment"
         android:name="com.example.trelloclone.ui.board.MyBoardsFragment"
@@ -85,4 +89,9 @@
             android:id="@+id/action_myBoardsFragment_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
+    <fragment
+        android:id="@+id/membersFragment"
+        android:name="com.example.trelloclone.ui.members.MembersFragment"
+        android:label="fragment_members"
+        tools:layout="@layout/fragment_members" />
 </navigation>

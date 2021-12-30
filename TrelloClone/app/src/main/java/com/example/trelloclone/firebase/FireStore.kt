@@ -11,6 +11,7 @@ import com.example.trelloclone.ui.cards.CardDetailFragment
 import com.example.trelloclone.ui.cards.MyCardsFragment
 import com.example.trelloclone.ui.home.HomeFragment
 import com.example.trelloclone.ui.login.LoginFragment
+import com.example.trelloclone.ui.members.MembersFragment
 import com.example.trelloclone.ui.registration.SignUpFragment
 import com.example.trelloclone.utils.AppLevelFunctions
 import com.example.trelloclone.utils.Constants
@@ -93,6 +94,36 @@ class Firestore {
             }
             .addOnFailureListener {
                 Log.d("FAILURE", "Pic not updated")
+            }
+    }
+
+
+    fun getMemberDetails(fragment: MembersFragment, email: String) {
+        mFireStore
+            .collection(Constants.USERS)
+            .whereEqualTo("email", email)
+            .get()
+            .addOnSuccessListener { document ->
+                if(document.documents.size > 0) {
+                    val user = document.documents[0].toObject(User::class.java)!!
+                    fragment.memberDetails(user)
+                }
+            }
+            .addOnFailureListener {
+                Log.e("ERROR", "Couldn't get details for member with given email")
+            }
+    }
+
+    fun assignMemberToBoard(fragment: MembersFragment, board: Board, user: User) {
+        mFireStore
+            .collection(Constants.BOARDS)
+            .document(board.id)
+            .update("members", board.members)
+            .addOnSuccessListener {
+                fragment.memberAssignSuccess(user)
+            }
+            .addOnFailureListener {
+                Log.e(fragment.javaClass.simpleName, it.message.toString())
             }
     }
 

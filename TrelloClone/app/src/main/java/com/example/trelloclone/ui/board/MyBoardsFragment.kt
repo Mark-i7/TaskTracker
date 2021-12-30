@@ -64,7 +64,7 @@ class MyBoardsFragment : Fragment(), OnItemClickListener {
     }
 
     private fun setupRecyclerView(){
-        adapter = CardsAdapter(ArrayList<BaseClass>(), this)
+        adapter = CardsAdapter(ArrayList<BaseClass>(), this, requireContext())
         recyclerView.adapter = adapter
     }
 
