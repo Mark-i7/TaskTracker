@@ -64,11 +64,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        //viewmodel
-        val factory = ViewModelFactory(Firestore())
-        ViewModelProvider(this, factory)[SharedViewModel::class.java]
-
-        Firestore().loadUserData(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

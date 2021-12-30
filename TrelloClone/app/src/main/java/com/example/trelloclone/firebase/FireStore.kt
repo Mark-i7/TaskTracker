@@ -64,10 +64,13 @@ class Firestore {
             .addOnSuccessListener { document ->
                 val loggedInUser = document.toObject(User::class.java)
                 Log.d("LOGGEDINUSER", loggedInUser.toString())
+
                 when (caller) {
                     is MainActivity -> caller.updateNavigationUserDetails(loggedInUser)
-                    //is LoginFragment -> caller.setLoggedInUserui(loggedInUser)
-                   // is ProfileFragment -> caller.setUserDataInUI(loggedInUser!!)
+                    is LoginFragment -> {
+                        val mainActivity: MainActivity = caller.activity as MainActivity
+                        mainActivity.updateNavigationUserDetails(loggedInUser)
+                    }
                 }
             }
             .addOnFailureListener {
