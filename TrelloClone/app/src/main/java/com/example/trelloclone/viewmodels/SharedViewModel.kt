@@ -30,6 +30,7 @@ class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
         fireStore.updateCardDetails(fragment, cardInfo)
         /** Local update */
         val currentCard = getCurrentCard()
+        currentCard.image = cardInfo.image
         currentCard.startTime = cardInfo.startTime
         currentCard.startDate = cardInfo.startDate
         currentCard.dueTime = cardInfo.dueTime

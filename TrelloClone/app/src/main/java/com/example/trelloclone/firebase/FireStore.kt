@@ -9,6 +9,7 @@ import com.example.trelloclone.models.TaskList
 import com.example.trelloclone.models.User
 import com.example.trelloclone.ui.cards.CardDetailFragment
 import com.example.trelloclone.ui.cards.MyCardsFragment
+import com.example.trelloclone.ui.home.HomeFragment
 import com.example.trelloclone.ui.login.LoginFragment
 import com.example.trelloclone.ui.registration.SignUpFragment
 import com.example.trelloclone.utils.AppLevelFunctions
@@ -71,10 +72,27 @@ class Firestore {
                         val mainActivity: MainActivity = caller.activity as MainActivity
                         mainActivity.updateNavigationUserDetails(loggedInUser)
                     }
+                    is HomeFragment -> {
+                        val mainActivity: MainActivity = caller.activity as MainActivity
+                        mainActivity.updateNavigationUserDetails(loggedInUser)
+                    }
                 }
             }
             .addOnFailureListener {
                 Log.e(caller.javaClass.simpleName, "Error getting documents")
+            }
+    }
+
+    fun updateUserPhoto(imageUri: String) {
+        mFireStore
+            .collection(Constants.USERS)
+            .document(getCurrentUserId())
+            .update("image", imageUri)
+            .addOnSuccessListener {
+                Log.d("Pic updated", "SUCCESS")
+            }
+            .addOnFailureListener {
+                Log.d("FAILURE", "Pic not updated")
             }
     }
 
