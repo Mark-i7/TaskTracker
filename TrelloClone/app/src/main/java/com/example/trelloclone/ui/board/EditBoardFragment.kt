@@ -30,8 +30,6 @@ class EditBoardFragment : Fragment() {
     private lateinit var editText: EditText
     private lateinit var actionButton: CircleImageView
     private lateinit var adapter: SingleBoardAdapter
-    private var taskListsList = ArrayList<TaskList>()
-    private var cardList = ArrayList<Card>()
     private var listForNewTaskListItems = ArrayList<TaskList>()
     private var listForNewCardItems = ArrayList<Card>()
 
@@ -53,14 +51,10 @@ class EditBoardFragment : Fragment() {
         setupRecyclerview()
         sharedViewModel.taskLists.observe(viewLifecycleOwner) {
             adapter.setTaskListData(sharedViewModel.taskLists.value!!)
-            Log.i("itt1", sharedViewModel.taskLists.value.toString())
-//            taskListsList.addAll(sharedViewModel.taskLists.value!!)
             adapter.notifyDataSetChanged()
         }
         sharedViewModel.cards.observe(viewLifecycleOwner) {
             adapter.setCardData(sharedViewModel.cards.value!!.filter { it.boardId == currentBoard.id } as ArrayList<Card>)
-            Log.i("itt2", sharedViewModel.cards.value.toString())
-            //cardList.addAll(sharedViewModel.cards.value!!)
             adapter.notifyDataSetChanged()
         }
         return root
@@ -74,7 +68,7 @@ class EditBoardFragment : Fragment() {
     }
 
     private fun setupRecyclerview() {
-        adapter = SingleBoardAdapter(taskListsList, cardList, listForNewCardItems)
+        adapter = SingleBoardAdapter(ArrayList<TaskList>(), ArrayList<Card>(), listForNewCardItems)
         recyclerView.adapter = adapter
     }
 
@@ -88,7 +82,6 @@ class EditBoardFragment : Fragment() {
             if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
                 /** Create a list with the title specified by user */
                 val taskList = TaskList("", currentBoard.id, editText.text.toString())
-                //taskListsList.add(taskList)
                 sharedViewModel.taskLists.value!!.add(taskList)
                 listForNewTaskListItems.add(taskList)
                 button.visibility = View.VISIBLE
@@ -109,8 +102,6 @@ class EditBoardFragment : Fragment() {
         Log.i("onPause", "onPause")
         Log.i("cardList", listForNewCardItems.toString())
         Log.i("taskLists", listForNewTaskListItems.toString())
-        Log.i("cardList", cardList.toString())
-        Log.i("taskLists", taskListsList.toString())
 
         /** Add taskLists to db */
         listForNewTaskListItems.forEach { sharedViewModel.addList(it) }
