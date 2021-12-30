@@ -4,39 +4,58 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentHomeBinding
+import com.example.trelloclone.firebase.Firestore
+import com.example.trelloclone.viewmodels.SharedViewModel
+import com.example.trelloclone.viewmodels.ViewModelFactory
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var sharedViewModel: SharedViewModel
+    private lateinit var imageView : ImageView
+    private lateinit var cardButton : Button
+    private lateinit var boardButton : Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val factory = ViewModelFactory(Firestore())
+        sharedViewModel = ViewModelProvider(requireActivity(), factory).get(SharedViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel =
-            ViewModelProvider(this)[HomeViewModel::class.java]
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        initializeElements()
+        setListeners()
+        return root
+    }
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    private fun initializeElements() {
+        imageView = binding.imageView
+        cardButton = binding.btnStartWithCards
+        boardButton = binding.btnStartWithBoards
+    }
+
+    private fun setListeners() {
+        cardButton.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_home_to_nav_my_card)
         }
 
-        return root
+        boardButton.setOnClickListener{
+            //TODO
+        }
     }
 
     override fun onDestroyView() {

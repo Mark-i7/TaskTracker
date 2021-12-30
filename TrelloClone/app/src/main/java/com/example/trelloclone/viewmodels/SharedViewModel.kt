@@ -1,9 +1,9 @@
 package com.example.trelloclone.viewmodels
-
-import android.util.Log
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.trelloclone.firebase.Firestore
+import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.Card
 import com.example.trelloclone.ui.cards.CardDetailFragment
 import com.example.trelloclone.ui.cards.MyCardsFragment
@@ -11,12 +11,16 @@ import com.example.trelloclone.ui.cards.MyCardsFragment
 class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
 
     var cards: MutableLiveData<ArrayList<Card>> = MutableLiveData()
+    var boards: MutableLiveData<ArrayList<Board>> = MutableLiveData()
     var currentCardId: String = ""
+    var currentBoardId: String = ""
 
     init {
         getAllCardsCreatedByUser()
-        Log.i("cards", cards.value.toString())
+        //getAllBoardsCreatedByUser()
     }
+
+    /** Card related operations */
 
     private fun addCard(fragment: MyCardsFragment, cardInfo: Card) {
         fireStore.addCard(fragment, cardInfo)
@@ -39,6 +43,25 @@ class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
 
     private fun getAllCardsCreatedByUser() {
         cards.value = fireStore.getAllCardsCreatedByUser()
-        Log.i("viewmodel", cards.value.toString())
     }
+
+    /** Board related operations */
+    private fun addBoard(fragment: Fragment, boardInfo: Board){
+        fireStore.addBoard(fragment, boardInfo)
+    }
+
+    private fun updateBoard(fragment: Fragment, boardInfo: Board){
+        fireStore.updateBoard(fragment, boardInfo)
+    }
+
+    private fun getAllBoardsCreatedByUser(){
+        boards.value = fireStore.getBoards()
+    }
+
+    fun getCurrentBoard(): Board {
+        return boards.value!!.filter { it.id == currentBoardId }[0]
+    }
+
+    /** List related operations */
+
 }
