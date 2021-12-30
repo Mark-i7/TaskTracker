@@ -41,12 +41,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_board_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:contentDescription="@string/image_contentDescription"
-                    android:src="@drawable/ic_baseline_emoji_emotions_24" />
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
