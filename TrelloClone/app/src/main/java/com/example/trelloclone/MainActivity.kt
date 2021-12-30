@@ -1,6 +1,5 @@
 package com.example.trelloclone
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -20,7 +19,6 @@ import com.bumptech.glide.Glide
 import com.example.trelloclone.databinding.ActivityMainBinding
 import com.example.trelloclone.firebase.Firestore
 import com.example.trelloclone.models.User
-import com.example.trelloclone.ui.login.LoginFragment
 import com.example.trelloclone.viewmodels.SharedViewModel
 import com.example.trelloclone.viewmodels.ViewModelFactory
 import com.google.android.material.navigation.NavigationView

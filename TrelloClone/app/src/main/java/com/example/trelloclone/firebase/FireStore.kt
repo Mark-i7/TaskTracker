@@ -186,25 +186,23 @@ class Firestore {
      * Function to get the boards for the current logged in user
      * shows all the boards which he is member in
      */
-    fun getBoards(fragment: Fragment): ArrayList<Board> {
+    fun getBoards() : ArrayList<Board> {
         val boardList: ArrayList<Board> = ArrayList()
-
         mFireStore
             .collection(Constants.BOARDS)
             .whereArrayContains("members", AppLevelFunctions.getCurrentUserID())
             .get()
             .addOnSuccessListener { document ->
-                Log.i(fragment.javaClass.simpleName, document.documents.toString())
+                Log.i("getBoards", document.documents.toString())
                 for (i in document.documents) {
                     val board = i.toObject(Board::class.java)!!
                     board.id = i.id
                     boardList.add(board)
                 }
                 Log.d("MyBoards: ", boardList.toString())
-                // TODO fragment.addBoardListToUI(boardsList)
             }
             .addOnFailureListener { e ->
-                Log.e(fragment.javaClass.simpleName, e.message.toString())
+                Log.e("getBoards", e.message.toString())
             }
         return boardList
     }
