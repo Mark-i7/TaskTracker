@@ -116,6 +116,7 @@ class CardDetailFragment : Fragment() {
                 this, Card(
                     currentCard.id,
                     currentCard.boardId,
+                    currentCard.listId,
                     currentCard.createdBy,
                     currentCard.assignedTo,
                     cardName.text.toString(),
