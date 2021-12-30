@@ -17,6 +17,7 @@ import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.TaskList
 import com.example.trelloclone.models.Card
 import com.example.trelloclone.viewmodels.SharedViewModel
+import de.hdodenhof.circleimageview.CircleImageView
 
 class EditBoardFragment : Fragment() {
 
@@ -27,6 +28,7 @@ class EditBoardFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var button: Button
     private lateinit var editText: EditText
+    private lateinit var actionButton: CircleImageView
     private lateinit var adapter: SingleBoardAdapter
     private var taskListsList = ArrayList<TaskList>()
     private var cardList = ArrayList<Card>()
@@ -68,6 +70,7 @@ class EditBoardFragment : Fragment() {
         recyclerView = binding.recyclerViewEditBoard
         button = binding.btnAddList
         editText = binding.etAddList
+        actionButton = binding.addMemberButton
     }
 
     private fun setupRecyclerview() {
@@ -94,6 +97,10 @@ class EditBoardFragment : Fragment() {
             } else {
                 return@setOnKeyListener false
             }
+        }
+
+        actionButton.setOnClickListener {
+
         }
     }
 

@@ -132,7 +132,12 @@ class MainActivity : AppCompatActivity() {
     private val getImage = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) {
-        photoImageView.setImageURI(it)
+        Glide
+            .with(this)
+            .load(it)
+            .centerCrop()
+            .placeholder(R.drawable.ic_circle_profile)
+            .into(photoImageView)
         mSelectedImageFileUri = it
         uploadUserImages()
         Firestore().updateUserPhoto(mSelectedImageFileUri.toString())
