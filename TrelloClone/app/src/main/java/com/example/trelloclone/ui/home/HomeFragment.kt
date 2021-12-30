@@ -6,15 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import com.example.trelloclone.R
-import com.example.trelloclone.databinding.FragmentHomeBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import androidx.navigation.fragment.findNavController
 import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentHomeBinding
@@ -26,8 +23,6 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var button: FloatingActionButton
-
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var imageView : ImageView
     private lateinit var cardButton : Button
@@ -46,20 +41,6 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-
-        root.apply { 
-            button = findViewById(R.id.fab)
-        }
-
-        button.setOnClickListener {
-            view->view.findNavController().navigate(R.id.nav_create_board)
-        }
-        
         initializeElements()
         setListeners()
         return root
@@ -77,7 +58,7 @@ class HomeFragment : Fragment() {
         }
 
         boardButton.setOnClickListener{
-            //TODO
+            findNavController().navigate(R.id.nav_create_board)
         }
     }
 

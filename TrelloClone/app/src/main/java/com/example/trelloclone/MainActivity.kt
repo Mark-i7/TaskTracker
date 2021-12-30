@@ -3,7 +3,6 @@ package com.example.trelloclone
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.navigation.NavigationView
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
