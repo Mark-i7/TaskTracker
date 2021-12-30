@@ -1,19 +1,22 @@
 package com.example.trelloclone.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trelloclone.R
 import com.example.trelloclone.models.BaseClass
 import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.Card
+import com.example.trelloclone.ui.board.MyBoardsFragment
 import com.example.trelloclone.ui.cards.MyCardsFragment
 
 class CardsAdapter(private var list: List<BaseClass>,
-                   private val listener: MyCardsFragment
+                   private val listener: Fragment
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnItemClickListener{
@@ -35,15 +38,28 @@ class CardsAdapter(private var list: List<BaseClass>,
 
         override fun onClick(v: View?) {
             val currentPosition = this.adapterPosition
-            listener.onItemClick(list[currentPosition].id)
+            if(listener is MyCardsFragment){
+                listener.onItemClick(list[currentPosition].id)
+            }
         }
     }
 
-    inner class BoardTitleHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BoardTitleHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val boardImageView: ImageView = itemView.findViewById(R.id.board_image_view)
         private val boardName : TextView = itemView.findViewById(R.id.tv_board_name)
         fun bindBoard(board: Board) {
             boardName.text = board.boardName
+        }
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(p0: View?) {
+            val currentPosition = this.adapterPosition
+            if(listener is MyBoardsFragment){
+                listener.onItemClick(list[currentPosition].id)
+            }
         }
     }
 

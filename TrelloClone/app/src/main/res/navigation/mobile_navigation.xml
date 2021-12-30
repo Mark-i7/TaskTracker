@@ -51,17 +51,16 @@
     <fragment
         android:id="@+id/nav_my_card"
         android:name="com.example.trelloclone.ui.cards.MyCardsFragment"
-        android:label="MyCardsFragment" >
-        <action
-            android:id="@+id/action_nav_my_card_to_createBoard"
-            app:destination="@id/nav_create_board" />
-    </fragment>
+        android:label="MyCardsFragment" />
     <fragment
         android:id="@+id/nav_create_board"
-        android:name="com.example.trelloclone.CreateBoard"
+        android:name="com.example.trelloclone.ui.board.CreateBoard"
         android:label="fragment_create_board"
         tools:layout="@layout/fragment_create_board" >
 
+        <action
+            android:id="@+id/action_nav_create_board_to_myBoardsFragment"
+            app:destination="@id/myBoardsFragment" />
     </fragment>
         android:name="com.example.trelloclone.ui.cards.MyCardsFragment"
         android:label="Edit card">
@@ -78,4 +77,16 @@
         android:name="com.example.trelloclone.ui.board.EditBoardFragment"
         android:label="Edit board"
         tools:layout="@layout/fragment_edit_board" />
+    <fragment
+        android:id="@+id/myBoardsFragment"
+        android:name="com.example.trelloclone.ui.board.MyBoardsFragment"
+        android:label="fragment_my_boards"
+        tools:layout="@layout/fragment_my_boards" >
+        <action
+            android:id="@+id/action_myBoardsFragment_to_editBoardFragment"
+            app:destination="@id/editBoardFragment" />
+        <action
+            android:id="@+id/action_myBoardsFragment_to_nav_create_board2"
+            app:destination="@id/nav_create_board" />
+    </fragment>
 </navigation>

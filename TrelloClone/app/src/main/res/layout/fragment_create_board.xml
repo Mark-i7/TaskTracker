@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CreateBoard">
+    tools:context=".ui.board.CreateBoard">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -44,6 +44,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/et_board_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/HelperTextAppearance"
@@ -51,7 +52,6 @@
                     android:layout_marginTop="25dp">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/et_board_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/board_name"

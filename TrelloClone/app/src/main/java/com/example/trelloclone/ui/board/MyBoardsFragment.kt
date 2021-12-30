@@ -1,24 +1,24 @@
-package com.example.trelloclone.ui.cards
+package com.example.trelloclone.ui.board
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trelloclone.R
-import com.example.trelloclone.adapter.CardsAdapter
-import com.example.trelloclone.databinding.FragmentMyCardsBinding
 import com.example.trelloclone.adapter.CardsAdapter.OnItemClickListener
+import com.example.trelloclone.adapter.CardsAdapter
+import com.example.trelloclone.databinding.FragmentMyBoardsBinding
 import com.example.trelloclone.models.BaseClass
 import com.example.trelloclone.viewmodels.SharedViewModel
 
-class MyCardsFragment : Fragment(), OnItemClickListener {
+class MyBoardsFragment : Fragment(), OnItemClickListener {
 
-    private var _binding: FragmentMyCardsBinding? = null
+    private var _binding: FragmentMyBoardsBinding? = null
     private val binding get() = _binding!!
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var recyclerView: RecyclerView
@@ -33,19 +33,20 @@ class MyCardsFragment : Fragment(), OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMyCardsBinding.inflate(inflater, container, false)
+        _binding = FragmentMyBoardsBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initializeElements()
         setupRecyclerView()
-        sharedViewModel.cards.observe(viewLifecycleOwner){
-            adapter.setData(sharedViewModel.cards.value as ArrayList<BaseClass>)
+        sharedViewModel.boards.observe(viewLifecycleOwner){
+            adapter.setData(sharedViewModel.boards.value as ArrayList<BaseClass>)
             adapter.notifyDataSetChanged()
         }
+        setListeners()
         return root
     }
 
     private fun initializeElements() {
-        recyclerView = binding.recyclerView
+        recyclerView = binding.recyclerViewBoards
         recyclerView.setHasFixedSize(true)
     }
 
@@ -54,13 +55,21 @@ class MyCardsFragment : Fragment(), OnItemClickListener {
         recyclerView.adapter = adapter
     }
 
+    private fun setListeners(){
+        binding.addBoardButton.setOnClickListener{
+            findNavController().navigate(R.id.action_myBoardsFragment_to_nav_create_board2)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     override fun onItemClick(id: String) {
-        sharedViewModel.currentCardId = id
-        findNavController().navigate(R.id.action_nav_my_card_to_cardDetailFragment)
+        sharedViewModel.currentBoardId = id
+        Log.i("currentBoardId", id)
+        sharedViewModel.getListsForBoard(id)
+        findNavController().navigate(R.id.action_myBoardsFragment_to_editBoardFragment)
     }
 }

@@ -4,27 +4,33 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class TaskList(
-    id: String,
+    var id: String,
     var boardId: String, // board which is part of
-    var listName: String,
-    viewType: Int
-) : BaseClass(id, viewType), Parcelable {
+    var listName: String
+) : Parcelable {
+
+    constructor() : this(
+        "", "", ""
+    )
+
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readInt()
+        parcel.readString()!!
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(boardId)
         parcel.writeString(listName)
-        parcel.writeInt(viewType)
     }
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun toString(): String {
+        return "TaskList(id='$id', boardId='$boardId', listName='$listName')"
     }
 
     companion object CREATOR : Parcelable.Creator<TaskList> {

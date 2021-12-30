@@ -10,10 +10,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.example.trelloclone.R
+import com.example.trelloclone.models.Card
+import com.example.trelloclone.models.TaskList
+import com.example.trelloclone.utils.AppLevelFunctions
 
 class SingleBoardAdapter(
-    private var list: ArrayList<String>,
-    private var cardList: ArrayList<String>
+    private var list: ArrayList<TaskList>,
+    private var cardList: ArrayList<Card>,
+    private var listForNewCardItems: ArrayList<Card>
 ) : RecyclerView.Adapter<SingleBoardAdapter.SingleBoardViewHolder>() {
 
     private val viewPool = RecycledViewPool()
@@ -42,7 +46,12 @@ class SingleBoardAdapter(
             when (view?.id) {
                 cardNameTextView.id -> {
                     if (keyEvent!!.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
-                        cardList.add(cardNameTextView.text.toString())
+                        val currentPosition = this.adapterPosition
+                        /** Create a card with the title specified by user */
+                        val card = Card("", "", "", list[currentPosition].listName, AppLevelFunctions.getCurrentUserID(), ArrayList<String>(), cardNameTextView.text.toString(),
+                            "", "", "","", "0", "", "", 0)
+                        cardList.add(card)
+                        listForNewCardItems.add(card)
                         notifyDataSetChanged()
                         cardNameTextView.text = ""
                         cardNameTextView.visibility = View.GONE
@@ -64,20 +73,23 @@ class SingleBoardAdapter(
     // 3. Called many times, when we scroll the list
     override fun onBindViewHolder(holder: SingleBoardViewHolder, position: Int) {
         val currentItem = list[position]
-        holder.textView.text = currentItem
+        holder.textView.text = currentItem.listName
         holder.recyclerView.setHasFixedSize(true)
-        val list = cardList.filter { it == currentItem } as ArrayList<String>
-        holder.recyclerView.adapter = ListAdapter(list)
+        val listNamesList = ArrayList<String?>()
+        cardList.filter { it.listName == currentItem.listName }.forEach { listNamesList.add(it.cardTitle) }
+        holder.recyclerView.adapter = ListAdapter(listNamesList)
         holder.recyclerView.setRecycledViewPool(viewPool)
     }
 
     override fun getItemCount() = list.size
 
-    fun setData(newlist: ArrayList<String>) {
-        list = newlist
+    // Update the list
+    fun setCardData(newlist: ArrayList<Card>){
+        cardList = newlist
     }
 
-    fun addData(str: String) {
-        list.add(str)
+    // Update the list
+    fun setTaskListData(newlist: ArrayList<TaskList>){
+        list = newlist
     }
 }

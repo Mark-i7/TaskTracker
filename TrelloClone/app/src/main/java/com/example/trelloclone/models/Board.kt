@@ -10,6 +10,11 @@ class Board(
     var members: ArrayList<String>, // user ids
     viewType: Int
 ) : BaseClass(id, viewType), Parcelable {
+
+    constructor() : this(
+        "", "", 0, arrayListOf(""), 1
+    )
+
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
@@ -28,6 +33,10 @@ class Board(
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun toString(): String {
+        return super.toString() +  "Board(boardName='$boardName', imageId=$imageId, members=$members)"
     }
 
     companion object CREATOR : Parcelable.Creator<Board> {

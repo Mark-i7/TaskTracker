@@ -22,9 +22,9 @@
             android:title="@string/menu_my_cards"
             android:label="@string/menu_my_cards"/>
         <item
-            android:id="@+id/editBoardFragment"
+            android:id="@+id/myBoardsFragment"
             android:icon="@drawable/ic_my_cards"
-            android:title="@string/menu_edit_board"
-            android:label="@string/menu_edit_board"/>
+            android:title="@string/menu_my_board"
+            android:label="@string/menu_my_board"/>
     </group>
 </menu>

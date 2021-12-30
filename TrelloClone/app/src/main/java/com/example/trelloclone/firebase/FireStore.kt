@@ -103,14 +103,14 @@ class Firestore {
     /**
      * Adding a new card in the database
      */
-    fun addCard(fragment: MyCardsFragment, cardInfo: Card) {
+    fun addCard(cardInfo: Card) {
         mFireStore
             .collection(Constants.CARDS)
             .add(cardInfo)
             .addOnSuccessListener {
-                fragment.cardAddedSuccess()
+                Log.i("addCard", "card added successfully")
             }.addOnFailureListener {
-                Log.e(fragment.javaClass.simpleName, "Error writing documents")
+                Log.e("addCard", "error")
             }
     }
 
@@ -176,14 +176,14 @@ class Firestore {
     /**
      * Function to add a new board created by the user in to the db with generated id
      */
-    fun addBoard(fragment: Fragment, boardInfo: Board) {
+    fun addBoard(boardInfo: Board) {
         mFireStore
             .collection(Constants.BOARDS)
             .add(boardInfo)
             .addOnSuccessListener {
                 // TODO: fragment.boardAddedSuccess()
             }.addOnFailureListener {
-                Log.e(fragment.javaClass.simpleName, "Error writing documents")
+                Log.e("addBoard", "Error writing documents")
             }
     }
 
@@ -207,7 +207,7 @@ class Firestore {
      * Function to get the boards for the current logged in user
      * shows all the boards which he is member in
      */
-    fun getBoards() : ArrayList<Board> {
+    fun getBoards(callback : FirebaseCallbackBoards) {
         val boardList: ArrayList<Board> = ArrayList()
         mFireStore
             .collection(Constants.BOARDS)
@@ -221,11 +221,11 @@ class Firestore {
                     boardList.add(board)
                 }
                 Log.d("MyBoards: ", boardList.toString())
+                callback.onResponse(boardList)
             }
             .addOnFailureListener { e ->
                 Log.e("getBoards", e.message.toString())
             }
-        return boardList
     }
 
     /**
@@ -299,7 +299,7 @@ class Firestore {
     /**
      * Function to get lists for one specific boardId
      */
-    fun getListsForBoard(boardId: String): ArrayList<TaskList> {
+    fun getListsForBoard(boardId: String, callback : FirebaseCallbackTasks) {
         val taskList: ArrayList<TaskList> = ArrayList()
         mFireStore
             .collection(Constants.LIST)
@@ -311,11 +311,21 @@ class Firestore {
                     list.id = i.id
                     taskList.add(list)
                 }
+                Log.i("taskList", taskList.toString())
+                callback.onResponse(taskList)
             }
             .addOnFailureListener { e ->
                 Log.i("tag", e.message.toString())
             }
-        return taskList
     }
 }
+
+interface FirebaseCallbackTasks {
+    fun onResponse(list : ArrayList<TaskList>)
+}
+
+interface FirebaseCallbackBoards {
+    fun onResponse(list : ArrayList<Board>)
+}
+
 
