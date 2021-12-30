@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 class Card(
     id: String,
-
+    var boardId: String, // the d of the board it's related to
     var listId: String, // the d of the board it's related to
     var listName: String,
     var createdBy: String, // the id of the current user who executed the creation
@@ -22,11 +22,12 @@ class Card(
 ) : BaseClass(id, viewType), Parcelable {
 
     constructor() : this(
-        "","", "", "", arrayListOf(""), null, "", "", "", "",
-        0, "", "", 0
+        "", "", "", "", "", arrayListOf(""), null, "", "",
+        "", "", 0, "", "", 0
     )
 
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -45,7 +46,9 @@ class Card(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
+        parcel.writeString(boardId)
         parcel.writeString(listId)
+        parcel.writeString(listName)
         parcel.writeString(createdBy)
         parcel.writeStringList(assignedTo)
         parcel.writeString(cardTitle)

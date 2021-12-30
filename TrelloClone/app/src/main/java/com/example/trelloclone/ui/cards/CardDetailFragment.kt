@@ -115,6 +115,7 @@ class CardDetailFragment : Fragment() {
             sharedViewModel.updateCardDetails(
                 this, Card(
                     currentCard.id,
+                    currentCard.boardId,
                     currentCard.listId,
                     currentCard.listName,
                     currentCard.createdBy,
