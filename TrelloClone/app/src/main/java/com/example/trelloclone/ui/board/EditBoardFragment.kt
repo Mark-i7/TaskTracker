@@ -1,6 +1,7 @@
 package com.example.trelloclone.ui.board
 
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.trelloclone.adapter.SingleBoardAdapter
 import com.example.trelloclone.databinding.FragmentEditBoardBinding
 import com.example.trelloclone.models.Board
+import com.example.trelloclone.models.BoardList
+import com.example.trelloclone.models.Card
+import com.example.trelloclone.utils.AppLevelFunctions
 import com.example.trelloclone.viewmodels.SharedViewModel
 
 class EditBoardFragment : Fragment() {
@@ -20,12 +24,13 @@ class EditBoardFragment : Fragment() {
     private var _binding: FragmentEditBoardBinding? = null
     private val binding get() = _binding!!
     private lateinit var sharedViewModel: SharedViewModel
-    private lateinit var currentBoard: Board //todo
+    private lateinit var currentBoard: Board //TODO
     private lateinit var recyclerView: RecyclerView
     private lateinit var button : Button
     private lateinit var editText: EditText
     private lateinit var adapter: SingleBoardAdapter
-    private var list = ArrayList<String>()
+    private var boardListList = ArrayList<BoardList>()
+    private var cardList = ArrayList<Card>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +58,7 @@ class EditBoardFragment : Fragment() {
     }
 
     private fun setupRecyclerview(){
-        adapter = SingleBoardAdapter(ArrayList<String>(), ArrayList<String>())
+        adapter = SingleBoardAdapter(boardListList, cardList)
         recyclerView.adapter = adapter
     }
 
@@ -65,8 +70,8 @@ class EditBoardFragment : Fragment() {
 
         editText.setOnKeyListener { view, i, keyEvent ->
             if(keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER){
-                list.add(editText.text.toString())
-                adapter.setData(list)
+                /** Create a list with the title specified by user */
+                boardListList.add(BoardList("", editText.text.toString(), "currentBoardId", AppLevelFunctions.getCurrentUserID())) //TODO
                 adapter.notifyDataSetChanged()
                 button.visibility = View.VISIBLE
                 editText.visibility = View.GONE
@@ -79,4 +84,11 @@ class EditBoardFragment : Fragment() {
 
     private fun setValues() {
     }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("cardList", cardList.toString())
+        Log.i("boardLists", boardListList.toString())
+    }
+
 }

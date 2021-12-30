@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.trelloclone.R
 
 class ListAdapter(
-    private var list: ArrayList<String>
+    private var list: ArrayList<String?>
 ) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
 
     // 1. user defined ViewHolder type - Embedded class!
@@ -29,8 +29,4 @@ class ListAdapter(
     }
 
     override fun getItemCount() = list.size
-
-    fun setData(newlist: ArrayList<String>){
-        list = newlist
-    }
 }
