@@ -1,25 +1,30 @@
 package com.example.trelloclone.adapter
 
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.trelloclone.R
 import com.example.trelloclone.models.BaseClass
 import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.Card
 import com.example.trelloclone.ui.board.MyBoardsFragment
 import com.example.trelloclone.ui.cards.MyCardsFragment
+import io.grpc.Context
 
 class CardsAdapter(private var list: List<BaseClass>,
-                   private val listener: Fragment
+                   private val listener: Fragment,
+                   private val context: android.content.Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun onItemClick(id: String)
     }
 
@@ -30,6 +35,12 @@ class CardsAdapter(private var list: List<BaseClass>,
         fun bindCard(card: Card) {
             cardName.text = card.cardTitle
             dueDate.text = card.dueDate
+            Glide
+                .with(context)
+                .load(card.image)
+                .centerCrop()
+                .placeholder(R.drawable.common_google_signin_btn_icon_light_normal)
+                .into(image)
         }
 
         init {

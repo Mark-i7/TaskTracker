@@ -60,4 +60,7 @@
     <string name="card_details">Card details</string>
     <string name="edit_board">Edit board</string>
     <string name="my_boards">My boards</string>
+    <string name="search_member">Search Member</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.example.trelloclone.R
 import com.example.trelloclone.models.Card
 import com.example.trelloclone.models.TaskList
+import com.example.trelloclone.ui.board.EditBoardFragment
 import com.example.trelloclone.utils.AppLevelFunctions
 
 class SingleBoardAdapter(
     private var list: ArrayList<TaskList>,
     private var cardList: ArrayList<Card>,
-    private var listForNewCardItems: ArrayList<Card>
+    private var listForNewCardItems: ArrayList<Card>,
+    private var context: EditBoardFragment
 ) : RecyclerView.Adapter<SingleBoardAdapter.SingleBoardViewHolder>() {
 
     private val viewPool = RecycledViewPool()
@@ -75,9 +77,9 @@ class SingleBoardAdapter(
         val currentItem = list[position]
         holder.textView.text = currentItem.listName
         holder.recyclerView.setHasFixedSize(true)
-        val listNamesList = ArrayList<String?>()
-        cardList.filter { it.listName == currentItem.listName }.forEach { listNamesList.add(it.cardTitle) }
-        holder.recyclerView.adapter = ListAdapter(listNamesList)
+        val listNamesList = ArrayList<Pair<String,String?>>()
+        cardList.filter { it.listName == currentItem.listName }.forEach { listNamesList.add(Pair(it.id, it.cardTitle)) }
+        holder.recyclerView.adapter = ListAdapter(listNamesList, context)
         holder.recyclerView.setRecycledViewPool(viewPool)
     }
 

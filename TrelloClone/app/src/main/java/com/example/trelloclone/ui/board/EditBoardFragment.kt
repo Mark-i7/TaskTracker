@@ -10,15 +10,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.trelloclone.R
+import com.example.trelloclone.adapter.ListAdapter
 import com.example.trelloclone.adapter.SingleBoardAdapter
 import com.example.trelloclone.databinding.FragmentEditBoardBinding
 import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.TaskList
 import com.example.trelloclone.models.Card
 import com.example.trelloclone.viewmodels.SharedViewModel
+import de.hdodenhof.circleimageview.CircleImageView
 
-class EditBoardFragment : Fragment() {
+class EditBoardFragment : Fragment(), ListAdapter.OnItemClickListener {
 
     private var _binding: FragmentEditBoardBinding? = null
     private val binding get() = _binding!!
@@ -27,6 +31,7 @@ class EditBoardFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var button: Button
     private lateinit var editText: EditText
+    private lateinit var actionButton: CircleImageView
     private lateinit var adapter: SingleBoardAdapter
     private var listForNewTaskListItems = ArrayList<TaskList>()
     private var listForNewCardItems = ArrayList<Card>()
@@ -62,10 +67,11 @@ class EditBoardFragment : Fragment() {
         recyclerView = binding.recyclerViewEditBoard
         button = binding.btnAddList
         editText = binding.etAddList
+        actionButton = binding.viewMembersButton
     }
 
     private fun setupRecyclerview() {
-        adapter = SingleBoardAdapter(ArrayList<TaskList>(), ArrayList<Card>(), listForNewCardItems)
+        adapter = SingleBoardAdapter(ArrayList<TaskList>(), ArrayList<Card>(), listForNewCardItems, this)
         recyclerView.adapter = adapter
     }
 
@@ -87,6 +93,10 @@ class EditBoardFragment : Fragment() {
             } else {
                 return@setOnKeyListener false
             }
+        }
+
+        actionButton.setOnClickListener {
+            findNavController().navigate(R.id.action_editBoardFragment_to_membersFragment)
         }
     }
 
@@ -114,5 +124,10 @@ class EditBoardFragment : Fragment() {
                 sharedViewModel.addCard(it)
             }
         }
+    }
+
+    override fun onItemClick(id: String) {
+        sharedViewModel.currentCardId = id
+        findNavController().navigate(R.id.action_editBoardFragment_to_cardDetailFragment)
     }
 }

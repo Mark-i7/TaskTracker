@@ -64,7 +64,7 @@ class MyBoardsFragment : Fragment(), OnItemClickListener {
     }
 
     private fun setupRecyclerView(){
-        adapter = CardsAdapter(ArrayList<BaseClass>(), this)
+        adapter = CardsAdapter(ArrayList<BaseClass>(), this, requireContext())
         recyclerView.adapter = adapter
     }
 
@@ -82,6 +82,7 @@ class MyBoardsFragment : Fragment(), OnItemClickListener {
     override fun onItemClick(id: String) {
         sharedViewModel.currentBoardId = id
         Log.i("currentBoardId", id)
+        sharedViewModel.currentAssignedMembersList.clear()
         sharedViewModel.getListsForBoard(id)
         findNavController().navigate(R.id.action_myBoardsFragment_to_editBoardFragment)
     }
