@@ -2,9 +2,11 @@ package com.example.trelloclone.ui.members
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -23,17 +25,16 @@ import com.example.trelloclone.viewmodels.SharedViewModel
 class MembersFragment : Fragment() {
 
     lateinit var mBoardDetails: Board
-    lateinit var mAssignedMembersList: ArrayList<User>
-    private var anyChangesMade: Boolean = false
+    private var mAssignedMembersList: ArrayList<User> = arrayListOf()
     private var _binding: FragmentMembersBinding? = null
     private val binding get() = _binding!!
     lateinit var sharedViewModel:SharedViewModel
     lateinit var rvMembers: RecyclerView
+    lateinit var ivAddMember: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -43,11 +44,22 @@ class MembersFragment : Fragment() {
         _binding = FragmentMembersBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initializeElements()
+        Log.d("members: ", mAssignedMembersList.toString())
+        setupMembersList(mAssignedMembersList)
+
+        ivAddMember.setOnClickListener {
+            dialogSearchMember()
+        }
+
         return root
     }
 
     private fun initializeElements() {
         rvMembers = binding.rvMembersList
+        ivAddMember = binding.addMemberButton
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        mBoardDetails = sharedViewModel.getCurrentBoard()
+        mAssignedMembersList = sharedViewModel.currentAssignedMembersList
     }
 
     fun setupMembersList(list: ArrayList<User>) {
@@ -66,7 +78,6 @@ class MembersFragment : Fragment() {
 
     fun memberAssignSuccess(user: User) {
         mAssignedMembersList.add(user)
-        anyChangesMade = true
         setupMembersList(mAssignedMembersList)
     }
 

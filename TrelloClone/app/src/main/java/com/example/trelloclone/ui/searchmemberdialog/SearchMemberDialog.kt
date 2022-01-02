@@ -32,7 +32,7 @@ abstract class SearchMemberDialog(
     }
 
     private fun setUpRecyclerView(view: View) {
-        view.findViewById<TextView>(R.id.tv_dialog_title).text = title
+        view.findViewById<TextView>(R.id.tvTitle).text = title
 
         if (list.size > 0) {
             val recyclerView = view.findViewById<RecyclerView>(R.id.rvList)
@@ -40,13 +40,6 @@ abstract class SearchMemberDialog(
             adapter = MemberListAdapter(context, list)
             recyclerView.adapter = adapter
 
-            adapter!!.setOnClickListener(object :
-                MemberListAdapter.OnClickListener {
-                override fun onClick(position: Int, user: User, action: String) {
-                    dismiss()
-                    onItemSelected(user, action)
-                }
-            })
         }
     }
 

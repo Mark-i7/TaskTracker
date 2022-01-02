@@ -114,6 +114,23 @@ class Firestore {
             }
     }
 
+    fun getUserById(userId: String, callback: FirebaseCallbackUser) {
+        var user = User()
+        mFireStore
+            .collection(Constants.USERS)
+            .whereEqualTo("id", userId)
+            .get()
+            .addOnSuccessListener { document ->
+                if(document.documents.size > 0) {
+                    user = document.documents[0].toObject(User::class.java)!!
+                }
+                callback.onResponse(user)
+            }
+            .addOnFailureListener {
+                Log.e("ERROR", "Couldn't get details for member with given email")
+            }
+    }
+
     fun assignMemberToBoard(fragment: MembersFragment, board: Board, user: User) {
         mFireStore
             .collection(Constants.BOARDS)
@@ -181,6 +198,29 @@ class Firestore {
                 Log.i("tag", e.message.toString())
             }
         return cardsList
+    }
+
+    /**
+     * Getting the cards related to the board with id given
+     * They can be viewed in the editing section of the board
+     */
+    fun getAllCardsByBoard(boardId: String, callback: FirebaseCallbackCards) {
+        val cardsList: ArrayList<Card> = ArrayList()
+        mFireStore
+            .collection(Constants.CARDS)
+            .whereEqualTo("boardId", boardId)
+            .get()
+            .addOnSuccessListener { document ->
+                for(i in document.documents) {
+                    val card = i.toObject(Card::class.java)!!
+                    card.id = i.id
+                    cardsList.add(card)
+                }
+                callback.onResponse(cardsList)
+            }
+            .addOnFailureListener { e ->
+                Log.i("tag", e.message.toString())
+            }
     }
 
     /**
@@ -357,6 +397,14 @@ interface FirebaseCallbackTasks {
 
 interface FirebaseCallbackBoards {
     fun onResponse(list : ArrayList<Board>)
+}
+
+interface FirebaseCallbackUser {
+    fun onResponse(list : User)
+}
+
+interface FirebaseCallbackCards {
+    fun onResponse(list : ArrayList<Card>)
 }
 
 

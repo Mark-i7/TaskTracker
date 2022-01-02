@@ -2,13 +2,13 @@ package com.example.trelloclone.viewmodels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.trelloclone.firebase.FirebaseCallbackBoards
-import com.example.trelloclone.firebase.FirebaseCallbackTasks
-import com.example.trelloclone.firebase.Firestore
+import com.example.trelloclone.firebase.*
 import com.example.trelloclone.models.Board
 import com.example.trelloclone.models.Card
 import com.example.trelloclone.models.TaskList
+import com.example.trelloclone.models.User
 import com.example.trelloclone.ui.cards.CardDetailFragment
+import kotlin.collections.ArrayList
 
 
 class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
@@ -18,6 +18,7 @@ class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
     var taskLists : MutableLiveData<ArrayList<TaskList>> = MutableLiveData()
     var currentCardId: String = ""
     var currentBoardId: String = ""
+    var currentAssignedMembersList: ArrayList<User> = arrayListOf()
 
     init {
         getAllCardsCreatedByUser()
@@ -55,6 +56,18 @@ class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
     fun deleteCard(card: Card){
         fireStore.deleteCard(card)
     }
+
+    fun appendCardList(board: Board) {
+        fireStore.getAllCardsByBoard(board.id, object: FirebaseCallbackCards {
+            override fun onResponse(list: ArrayList<Card>) {
+                list.forEach {
+                    if (!cards.value!!.contains(it)) {
+                        cards.value!!.add(it)
+                    }
+                }
+            }
+        })
+    }
     /** Board related operations */
 
     fun addBoard(boardInfo: Board){
@@ -70,12 +83,26 @@ class SharedViewModel(private val fireStore: Firestore) : ViewModel() {
         fireStore.getBoards(object : FirebaseCallbackBoards{
             override fun onResponse(list: ArrayList<Board>) {
                 boards.value = list
+                list.forEach {
+                    appendCardList(it)
+                }
             }
         })
+
     }
 
     fun getCurrentBoard(): Board {
-        return boards.value!!.filter { it.id == currentBoardId }[0]
+        val currentBoard = boards.value!!.filter { it.id == currentBoardId }[0]
+        currentBoard.members.map {
+            (fireStore.getUserById(it, object: FirebaseCallbackUser {
+                override fun onResponse(usr: User) {
+                    if (!currentAssignedMembersList.contains(usr)) {
+                        currentAssignedMembersList.add(usr)
+                    }
+                }
+            }))
+        }
+        return currentBoard
     }
 
     fun deleteBoard(board: Board){

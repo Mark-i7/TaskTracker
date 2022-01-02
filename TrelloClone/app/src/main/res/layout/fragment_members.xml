@@ -9,20 +9,6 @@
     android:orientation="vertical"
     tools:context=".ui.members.MembersFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_members_activity"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorAccent"
-            app:titleTextColor="@color/white"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-    </com.google.android.material.appbar.AppBarLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,7 +19,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="588dp"
             android:layout_marginTop="5dp"
             android:background="@android:color/white"
             android:elevation="@dimen/card_view_elevation"
@@ -42,7 +28,17 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_members_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="593dp" />
         </androidx.cardview.widget.CardView>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/add_member_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_add_board_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_edit_board" />
     </LinearLayout>
 </LinearLayout>

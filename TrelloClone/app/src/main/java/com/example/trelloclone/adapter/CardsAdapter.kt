@@ -24,7 +24,7 @@ class CardsAdapter(private var list: List<BaseClass>,
                    private val context: android.content.Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
         fun onItemClick(id: String)
     }
 
