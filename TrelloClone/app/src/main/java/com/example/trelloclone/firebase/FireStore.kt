@@ -257,7 +257,6 @@ class Firestore {
             .collection(Constants.BOARDS)
             .add(boardInfo)
             .addOnSuccessListener {
-                // TODO: fragment.boardAddedSuccess()
             }.addOnFailureListener {
                 Log.e("addBoard", "Error writing documents")
             }
@@ -273,7 +272,6 @@ class Firestore {
             .document(boardInfo.id)
             .set(boardInfo, SetOptions.merge())
             .addOnSuccessListener {
-                // TODO: fragment.boardUpdatedSuccess()
             }.addOnFailureListener {
                 Log.e(fragment.javaClass.simpleName, "Error writing documents")
             }

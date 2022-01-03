@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.trelloclone.R
 import com.example.trelloclone.models.User
-import com.example.trelloclone.utils.Constants
 
 class MemberListAdapter(
     private val context: Context,
@@ -27,7 +26,7 @@ class MemberListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberListAdapter.MemberViewHolder {
         return MemberViewHolder(
             LayoutInflater.from(context).inflate(
-                R.layout.item_member,
+                R.layout.member_item,
                 parent,
                 false
             )
