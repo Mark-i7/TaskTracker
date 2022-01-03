@@ -12,6 +12,7 @@ import com.example.trelloclone.ui.cards.MyCardsFragment
 import com.example.trelloclone.ui.home.HomeFragment
 import com.example.trelloclone.ui.login.LoginFragment
 import com.example.trelloclone.ui.members.MembersFragment
+import com.example.trelloclone.ui.profile.ProfileFragment
 import com.example.trelloclone.ui.registration.SignUpFragment
 import com.example.trelloclone.utils.AppLevelFunctions
 import com.example.trelloclone.utils.Constants
@@ -74,6 +75,10 @@ class Firestore {
                         mainActivity.updateNavigationUserDetails(loggedInUser)
                     }
                     is HomeFragment -> {
+                        val mainActivity: MainActivity = caller.activity as MainActivity
+                        mainActivity.updateNavigationUserDetails(loggedInUser)
+                    }
+                    is ProfileFragment ->{
                         val mainActivity: MainActivity = caller.activity as MainActivity
                         mainActivity.updateNavigationUserDetails(loggedInUser)
                     }
