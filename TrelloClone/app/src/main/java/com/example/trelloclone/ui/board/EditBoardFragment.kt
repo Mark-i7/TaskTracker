@@ -67,7 +67,7 @@ class EditBoardFragment : Fragment(), ListAdapter.OnItemClickListener {
         recyclerView = binding.recyclerViewEditBoard
         button = binding.btnAddList
         editText = binding.etAddList
-        actionButton = binding.viewMembersButton
+        actionButton = binding.viewMembersButton!!
     }
 
     private fun setupRecyclerview() {
