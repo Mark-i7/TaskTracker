@@ -18,11 +18,10 @@
         android:id="@+id/board_image_view"
         android:layout_width="@dimen/iv2_layout_width"
         android:layout_height="@dimen/iv2_layout_height"
-        android:layout_marginStart="@dimen/iv2_layout_marginStart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_light_normal" />
+        app:srcCompat="@drawable/img_my_boards" />
     <TextView
         android:id="@+id/tv_board_name"
         android:layout_width="wrap_content"
