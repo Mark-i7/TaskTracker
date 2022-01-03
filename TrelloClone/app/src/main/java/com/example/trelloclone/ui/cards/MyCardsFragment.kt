@@ -50,7 +50,13 @@ class MyCardsFragment : Fragment(), OnItemClickListener {
         initializeElements()
         setupRecyclerView()
         sharedViewModel.cards.observe(viewLifecycleOwner){
-            adapter.setData(sharedViewModel.cards.value as ArrayList<BaseClass>)
+            val list = arrayListOf<BaseClass>()
+            sharedViewModel.boards.value!!.forEach { board ->
+                list.add(board)
+                list.addAll(sharedViewModel.cards.value!!.filter { it.boardId == board.id })
+            }
+            //adapter.setData(sharedViewModel.cards.value as ArrayList<BaseClass>)
+            adapter.setData(list)
             adapter.notifyDataSetChanged()
         }
         return root
