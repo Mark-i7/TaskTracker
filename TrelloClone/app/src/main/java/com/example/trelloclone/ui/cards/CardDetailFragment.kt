@@ -164,7 +164,7 @@ class CardDetailFragment : Fragment() {
         dueDateAndTime.text = "${currentCard.dueDate} at ${currentCard.dueTime}"
         listDropdown.setText(currentCard.listName)
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, selectList)
+        val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, selectList)
         listDropdown.setAdapter(adapter)
         Glide
             .with(requireContext())
