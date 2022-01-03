@@ -95,13 +95,13 @@
     <fragment
         android:id="@+id/membersFragment"
         android:name="com.example.trelloclone.ui.members.MembersFragment"
-        android:label="fragment_members"
+        android:label="@string/members"
         tools:layout="@layout/fragment_members" />
 
 <fragment
 android:id="@+id/nav_profile"
 android:name="com.example.trelloclone.ui.profile.ProfileFragment"
-android:label="ProfileFragment">
+android:label="@string/profile">
 
 <action
     android:id="@+id/action_nav_profile_to_nav_home"
