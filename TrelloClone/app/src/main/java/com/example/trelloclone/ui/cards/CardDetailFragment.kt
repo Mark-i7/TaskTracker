@@ -8,10 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -22,6 +19,7 @@ import com.example.trelloclone.utils.AppLevelFunctions
 import com.example.trelloclone.viewmodels.SharedViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.common.io.Files
@@ -44,23 +42,29 @@ class CardDetailFragment : Fragment() {
     private lateinit var startDateAndTime: TextView
     private lateinit var dueDateAndTime: TextView
     private lateinit var updateButton: Button
+    private lateinit var listDropdown: AutoCompleteTextView
     private var startDate = ""
     private var startTime = ""
     private var dueDate = ""
     private var dueTime = ""
     private var selectedImageUri: Uri? = null
     private var cardImageUrl = ""
-
-    private lateinit var card: Card
+    private var selectList = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         currentCard = sharedViewModel.getCurrentCard()
+        sharedViewModel.getListsForBoard(currentCard.boardId)
         startDate = currentCard.startDate
         startTime = currentCard.startTime
         dueDate = currentCard.dueDate
         dueTime = currentCard.dueTime
+        selectList = if (sharedViewModel.taskLists.value?.map { it -> it.listName } != null) {
+            sharedViewModel.taskLists.value?.map { it -> it.listName } as ArrayList<String>
+        } else {
+            arrayListOf()
+        }
     }
 
     override fun onCreateView(
@@ -103,6 +107,7 @@ class CardDetailFragment : Fragment() {
         startDateAndTime = binding.tvStartDate
         dueDateAndTime = binding.tvDueDate
         updateButton = binding.updateButton
+        listDropdown = binding.autoCompleteTextView1
     }
 
     private fun setListeners() {
@@ -128,6 +133,7 @@ class CardDetailFragment : Fragment() {
         }
 
         updateButton.setOnClickListener {
+            currentCard.listName = listDropdown.text.toString()
             uploadCardImage()
             sharedViewModel.updateCardDetails(
                 this, Card(
@@ -156,6 +162,10 @@ class CardDetailFragment : Fragment() {
         cardDetails.setText(currentCard.details)
         startDateAndTime.text = "${currentCard.startDate} at ${currentCard.startTime}"
         dueDateAndTime.text = "${currentCard.dueDate} at ${currentCard.dueTime}"
+        listDropdown.setText(currentCard.listName)
+
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, selectList)
+        listDropdown.setAdapter(adapter)
         Glide
             .with(requireContext())
             .load(currentCard.image)
