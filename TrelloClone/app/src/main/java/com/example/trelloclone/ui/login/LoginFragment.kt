@@ -75,7 +75,6 @@ class LoginFragment() : Fragment(), ProgressDialog {
                 .addOnCompleteListener { task ->
                     hideProgressDialog()
                     if (task.isSuccessful) {
-                        showToast("Authentication success!", requireContext())
                         Firestore().loadUserData(this)
                         findNavController().navigate(R.id.action_loginFragment_to_nav_home)
                     } else {
