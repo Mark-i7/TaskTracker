@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp">
+
+        <ImageView
+            android:id="@+id/iv_add_card_detail_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_detail_iv_layout_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_upload_image"
+            android:layout_width="@dimen/upload_image_layout_width"
+            android:layout_height="@dimen/upload_image_layout_height"
+            android:layout_marginTop="@dimen/card_detail_layout_marginTop"
+            android:src="@drawable/frame"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_give_us_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_detail_tv_layout_marginTop"
+            android:padding="@dimen/card_detail_tv_layout_padding"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:text="@string/give_us_details_about_your_card"
+            android:textColor="@color/black"
+            android:textSize="@dimen/card_detail_tv_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_add_card_detail_image" />
+
+        <TextView
+            android:id="@+id/tv_card_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+
+            android:background="@color/white"
+            android:textStyle="italic"
+            android:textColor="@color/black"
+            android:text="@string/title"
+            android:textSize="@dimen/card_detail_tv_card_name_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_give_us_details" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dropdown_list"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+            android:layout_width="196dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            app:boxStrokeColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/tv_card_details"
+            app:layout_constraintStart_toStartOf="parent"
+            android:hint="Workflow"
+            app:layout_constraintTop_toBottomOf="@+id/tv_card_name">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="none"
+                android:text="Choose" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tv_card_details"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_details_layout_marginStart"
+            android:layout_marginTop="@dimen/card_details_layout_marginTop"
+            android:layout_marginEnd="@dimen/card_details_layout_marginEnd"
+            app:counterEnabled="true"
+            app:counterMaxLength="30"
+            app:helperTextTextColor="@color/dirtyWhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dropdown_list">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tv_card_details1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/description" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_start_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_detail_start_date_margin_top"
+            android:paddingStart="@dimen/card_detail_start_date_paddingStart"
+            android:paddingBottom="@dimen/card_detail_start_date_paddingTopBottom"
+            android:paddingTop="@dimen/card_detail_start_date_paddingTopBottom"
+            android:background="@color/white"
+            android:text="@string/start_date"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/card_detail_start_date_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_card_details"/>
+
+        <Button
+            android:id="@+id/button_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_detail_button_layout_marginStart"
+            android:layout_marginTop="@dimen/card_detail_button_layout_marginTop"
+            android:backgroundTint="@color/dirtyWhite"
+            android:text="@string/pick_a_date"
+            android:textColor="@color/black"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_start_date"/>
+
+        <Button
+            android:id="@+id/button_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_detail_button_layout_marginStart"
+            android:layout_marginTop="@dimen/card_detail_button_layout_marginTop"
+            android:backgroundTint="@color/dirtyWhite"
+            android:text="@string/pick_a_time"
+            android:textColor="@color/black"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toEndOf="@id/button_start_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_start_date"/>
+
+        <TextView
+            android:id="@+id/tv_due_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingStart="20dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:background="@color/white"
+            android:text="@string/due_date"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_start_date"/>
+
+        <Button
+            android:id="@+id/button_due_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_detail_button_layout_marginStart"
+            android:layout_marginTop="@dimen/card_detail_button_layout_marginTop"
+            android:backgroundTint="@color/dirtyWhite"
+            android:text="@string/pick_a_date"
+            android:textColor="@color/black"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_due_date"/>
+
+        <Button
+            android:id="@+id/button_due_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_detail_button_layout_marginStart"
+            android:layout_marginTop="@dimen/card_detail_button_layout_marginTop"
+            android:backgroundTint="@color/dirtyWhite"
+            android:text="@string/pick_a_time"
+            android:textColor="@color/black"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toEndOf="@+id/button_due_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_due_date" />
+
+        <Button
+            android:id="@+id/update_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:text="@string/update_card"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toEndOf="@+id/button_due_date"
+            app:layout_constraintTop_toBottomOf="@+id/button_due_time"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

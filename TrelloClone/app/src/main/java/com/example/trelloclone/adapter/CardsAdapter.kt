@@ -1,33 +1,76 @@
 package com.example.trelloclone.adapter
 
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.trelloclone.R
-import com.example.trelloclone.model.BaseClass
-import com.example.trelloclone.model.Board
-import com.example.trelloclone.model.Card
+import com.example.trelloclone.models.BaseClass
+import com.example.trelloclone.models.Board
+import com.example.trelloclone.models.Card
+import com.example.trelloclone.ui.board.MyBoardsFragment
+import com.example.trelloclone.ui.cards.MyCardsFragment
+import io.grpc.Context
 
-class RecyclerViewAdapter(private val list : List<BaseClass>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CardsAdapter(private var list: List<BaseClass>,
+                   private val listener: Fragment,
+                   private val context: android.content.Context
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class CardHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    interface OnItemClickListener {
+        fun onItemClick(id: String)
+    }
+
+    inner class CardHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val cardName: TextView = itemView.findViewById(R.id.tv_card_name)
         private val dueDate : TextView = itemView.findViewById(R.id.tv_due_date)
         private val image : ImageView = itemView.findViewById(R.id.user_profile_image)
         fun bindCard(card: Card) {
-            cardName.text = card.cardName
+            cardName.text = card.cardTitle
             dueDate.text = card.dueDate
+            Glide
+                .with(context)
+                .load(card.image)
+                .centerCrop()
+                .placeholder(R.drawable.common_google_signin_btn_icon_light_normal)
+                .into(image)
+        }
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val currentPosition = this.adapterPosition
+            if(listener is MyCardsFragment){
+                listener.onItemClick(list[currentPosition].id)
+            }
         }
     }
 
-    inner class BoardTitleHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BoardTitleHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val boardImageView: ImageView = itemView.findViewById(R.id.board_image_view)
         private val boardName : TextView = itemView.findViewById(R.id.tv_board_name)
         fun bindBoard(board: Board) {
             boardName.text = board.boardName
+        }
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(p0: View?) {
+            val currentPosition = this.adapterPosition
+            if(listener is MyBoardsFragment){
+                listener.onItemClick(list[currentPosition].id)
+            }
         }
     }
 
@@ -65,5 +108,10 @@ class RecyclerViewAdapter(private val list : List<BaseClass>) : RecyclerView.Ada
 
     override fun getItemViewType(position: Int): Int {
         return list[position].viewType
+    }
+
+    // Update the list
+    fun setData(newlist: ArrayList<BaseClass>){
+        list = newlist
     }
 }

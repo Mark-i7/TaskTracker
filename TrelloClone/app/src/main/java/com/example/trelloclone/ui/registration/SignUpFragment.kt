@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.trelloclone.R
 import com.example.trelloclone.databinding.FragmentSignupBinding
 import com.example.trelloclone.firebase.Firestore
@@ -49,6 +50,10 @@ class SignUpFragment: Fragment() {
             registerUser()
         }
 
+        binding.btnLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+        }
+
         return  root
     }
 
@@ -59,7 +64,7 @@ class SignUpFragment: Fragment() {
 
         if(signUpViewModel.validateForm(name, email, password, requireContext())){
             showProgressDialog()
-            FirebaseAuth
+                FirebaseAuth
                 .getInstance()
                 .createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener { task ->
@@ -69,7 +74,8 @@ class SignUpFragment: Fragment() {
                         val registeredEmail =  firebaseUser.email!!
                         val user = User(firebaseUser.uid, name, email)
                         Firestore().registerUser(this, user)
-                    }else{
+                        findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+                    } else {
                         showToast(task.exception!!.message.toString(), requireContext())
                     }
                 }
